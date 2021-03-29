@@ -1,0 +1,8 @@
+<span class="storeTag saleSavingTag">
+{{#if price.non_sale_price_without_tax.value}}
+    {{lang "products.saving_percentage"}} {{toInt (multiply (divide (subtract price.non_sale_price_without_tax.value price.without_tax.value) price.non_sale_price_without_tax.value)100)}}%
+{{/if}}
+{{#if price.non_sale_price_with_tax.value}}
+    {{lang "products.saving_percentage"}} {{toInt (multiply (divide (subtract price.non_sale_price_with_tax.value price.with_tax.value) price.non_sale_price_with_tax.value)100)}}%
+{{/if}}
+</span>

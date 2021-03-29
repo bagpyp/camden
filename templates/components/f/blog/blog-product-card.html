@@ -1,0 +1,30 @@
+<div class="relatedProduct">
+    <h2 class="productView-title" {{#if schema}}itemprop="name"{{/if}}>{{product.title}}</h2>
+
+
+    <a href="{{product.url}}">
+        <img class="productView-image--default lazyload"
+         data-sizes="auto"
+         src="{{cdn 'img/loading.svg'}}"
+         data-src="{{getImage product.main_image 'productgallery_size' (cdn theme_settings.default_image_product)}}"
+         alt="{{product.main_image.alt}}" title="{{product.main_image.alt}}" data-main-image>
+     </a>
+
+    <div class="productView-price">
+        {{#or customer (if theme_settings.restrict_to_login '===' 0)}}
+            {{> components/products/price price=product.price schema_org=schema}}
+        {{else}}
+            {{> components/common/login-for-pricing}}
+        {{/or}}
+    </div>
+
+    {{#each product.custom_fields}}
+        {{#if name '===' 'Blog Post Description'}}
+            <div class="relatedProduct-description">
+                {{{value}}}
+            </div>
+        {{/if}}
+    {{/each}}
+
+    <a href="{{product.url}}" class="button button--primary">Shop Now</a>
+</div>

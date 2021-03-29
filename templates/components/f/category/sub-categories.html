@@ -1,0 +1,8 @@
+<div class="grid gridColumns--{{themeSettings.subcategories_grid_column_count}}">
+    {{#each category.subcategories}}
+        <div class="gridColumn subCategory">
+            {{#if image}}<div class="subCategory-image"><a href="{{url}}"><img class="lazyload" data-sizes="auto" src="{{cdn 'img/loading.svg'}}" data-src="{{getImage image 'productgallery_size'}}" alt="{{name}}"></a></div>{{/if}}
+            <div class="subCategory-name {{#if image}}subCategory-name--center{{/if}}"><a href="{{url}}">{{name}}</a></div>
+        </div>
+    {{/each}}
+</div>

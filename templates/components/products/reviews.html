@@ -1,0 +1,31 @@
+{{#if reviews.total}}
+<h2 class="productView-title productView-title--reviews" id="product-reviews">{{lang 'products.reviews.title' reviews=product.num_reviews}}</h2>
+<ul class="productReviews-list" id="productReviews-list">
+    {{#each reviews.list}}
+    <li class="productReview">
+        <article itemprop="review" itemscope itemtype="http://schema.org/Review">
+            <header>
+                {{#if name}}
+                    <meta itemprop="author" content="{{name}}">
+                    <p class="productReview-author">
+                        {{lang 'products.reviews.post_on_by' date=date name=name }}
+                    </p>
+                {{else}}
+                    <p class="productReview-author">
+                        {{lang 'products.reviews.post_on_by' date=date name=(lang 'products.reviews.anonymous_poster')}}
+                    </p>
+                {{/if}}
+                <span class="productReview-rating rating--small" itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating">
+                    {{> components/products/ratings rating=rating}}
+                    <span class="productReview-ratingNumber" itemprop="ratingValue">{{ rating }}</span>
+                </span>
+                <h4 itemprop="name" class="productReview-title">{{ title }}</h4>
+            </header>
+            <p itemprop="reviewBody" class="productReview-body">{{nl2br text}}</p>
+        </article>
+    </li>
+    {{/each}}
+</ul>
+{{> components/common/paginator pagination.reviews}}
+{{/if}}
+{{{snippet 'reviews'}}}

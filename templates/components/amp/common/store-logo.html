@@ -1,0 +1,20 @@
+<a href="{{urls.home}}" class="amp-header-link">
+    {{#if settings.store_logo.image}}
+        <amp-img src="{{getImage settings.store_logo.image 'logo_size'}}"
+            {{#if theme_settings.logo_size '===' 'original' }}
+                width="200"
+                height="40"
+                layout="responsive"
+                sizes="200px"
+            {{else}}
+                width="{{#if (first (split theme_settings.logo_size 'x')) '<' 200}}{{first (split theme_settings.logo_size 'x')}}px{{else}}200px{{/if}}"
+                height="{{#if (last (split theme_settings.logo_size 'x')) '<' 40}}{{last (split theme_settings.logo_size 'x')}}px{{else}}40px{{/if}}"
+                layout="responsive"
+                sizes="{{#if (first (split theme_settings.logo_size 'x')) '<' 200}}{{first (split theme_settings.logo_size 'x')}}px{{else}}200px{{/if}}"
+            {{/if}}
+            alt="{{settings.store_logo.title}}">
+        </amp-img>
+    {{else}}
+        <span class="amp-header-logo-text">{{settings.store_logo.title}}</span>
+    {{/if}}
+</a>

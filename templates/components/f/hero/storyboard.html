@@ -1,0 +1,19 @@
+{{#each carousel.slides}}
+<a class="hero-carousel__link hero-carousel__link--order-{{@index}}" href="{{url}}">
+    <div class="heroCarousel-slide slide--{{@index}} {{#if ../theme_settings.homepage_stretch_carousel_images}}heroCarousel-slide--stretch{{/if}}">
+        <img class="heroCarousel-image{{#any heading text button_text}} has-content{{/any}} lazyload" src="{{cdn 'img/loading.svg'}}" data-src="{{image}}" alt="{{alt_text}}" title="{{alt_text}}"
+         {{#if image_width}}width="{{image_width}}"{{/if}} {{#if image_height}}height="{{image_height}}"{{/if}} />
+        {{#if heading}}
+            {{> components/f/hero/carousel-content show_background=true}}
+        {{else}}
+            {{#if text}}
+                {{> components/f/hero/carousel-content show_background=true}}
+            {{else}}
+                {{#if button_text}}
+                    {{> components/f/hero/carousel-content show_background=false}}
+                {{/if}}
+            {{/if}}
+        {{/if}}
+    </div>
+</a>
+{{/each}}

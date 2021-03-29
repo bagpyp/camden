@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html class="no-js" lang="{{ locale_name }}">
+    <head>
+        <title>{{ head.title }}</title>
+        {{{ resourceHints }}}
+        {{{ head.meta_tags }}}
+        {{{ head.config }}}
+        {{#block "head"}} {{/block}}
+
+        <link href="{{ head.favicon }}" rel="shortcut icon">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <meta name="ft-name" content="{{theme_settings.n}}">
+        <meta name="ft-version" content="{{theme_settings.v}}">
+
+        <script>
+            // Change document class from no-js to js so we can detect this in css
+            document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+        </script>
+
+        {{ getFontsCollection }}
+        {{{stylesheet '/assets/css/theme.css'}}}
+
+        {{{head.scripts}}}
+        {{{head.rsslinks}}}
+
+        {{inject 'themeSettings' theme_settings}}
+        {{inject 'genericError' (lang 'common.generic_error')}}
+        {{inject 'maintenanceMode' settings.maintenance}}
+        {{inject 'urls' urls}}
+        {{inject 'secureBaseUrl' settings.secure_base_url}}
+        {{inject 'cartId' cart_id}}
+        {{inject 'template' template}}
+        {{inject 'enableAnimations' theme_settings.enable_animations}}
+        {{{snippet 'htmlhead'}}}
+        <!-- Adding the link to the stylesheet for google font -Robbie -->
+        <link href="https://fonts.googleapis.com/css2?family=Lato&family=Raleway:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        {{{snippet 'header'}}}
+        <svg data-src="{{cdn 'img/icon-sprite.svg'}}" class="icons-svg-sprite"></svg>
+
+        {{#and settings.privacy_cookie settings.is_eu_ip_address}}
+            {{> components/common/cookie}}
+        {{/and}}
+
+        {{> components/common/header }}
+        {{#or customer (if theme_settings.restrict_to_login '!==' 2) (if page_type '===' 'page') (if page_type '===' 'page_contact_form') (if page_type '===' 'newsletter_subscribe') (if page_type '===' 'createaccount') (if page_type '===' 'forgotpassword')}}
+            {{#if theme_settings.restrict_to_login '===' 2}}
+                {{#and theme_settings.restrict_new_accounts (if customer_group_id '===' 0)}}
+                    {{#or (if page_type '===' 'page') (if page_type '===' 'page_contact_form') (if page_type '===' 'newsletter_subscribe') (if page_type '===' 'createaccount') (if page_type '===' 'forgotpassword')}}
+                        {{> components/common/body }}
+                    {{else}}
+                        {{> components/f/b2b/body-lockdown }}
+                    {{/or}}
+                {{else}}
+                    {{> components/common/body }}
+                {{/and}}
+            {{else}}
+                {{> components/common/body }}
+            {{/if}}
+        {{else}}
+            {{> components/f/b2b/body-lockdown }}
+        {{/or}}
+
+        {{> components/common/footer }}
+
+        <script>window.__webpack_public_path__ = "{{cdn 'assets/dist/'}}";</script>
+        <script src="{{cdn 'assets/dist/theme-bundle.main.js'}}"></script>
+        <script>
+            // Exported in app.js
+            window.stencilBootstrap("{{page_type}}", {{jsContext}}).load();
+        </script>
+
+        {{{footer.scripts}}}
+        {{{snippet 'footer'}}}
+
+        <!-- Adding this to override the styling of fonts -Robbie -->
+        <style>
+            html, body, div, span, applet, object, iframe,
+            h1, h3, h4, h5, h6, p, blockquote, pre,
+            a, abbr, acronym, address, big, cite, code,
+            del, dfn, em, img, ins, kbd, q, s, samp,
+            small, strike, strong, sub, sup, tt, var,
+            b, u, i, center,
+            dl, dt, dd, ol, ul, li,
+            fieldset, form, label, legend,
+            table, caption, tbody, tfoot, thead, tr, th, td,
+            article, aside, canvas, details, embed, 
+            figure, figcaption, footer, header, hgroup, 
+            menu, nav, output, ruby, section, summary,
+            time, mark, audio, video 
+            {
+                font-family: 'Lato', sans-serif;
+            }
+            h2 {
+                font-family: 'Raleway', sans-serif;
+                text-transform: uppercase;
+            }
+        </style>
+    </body>
+</html>

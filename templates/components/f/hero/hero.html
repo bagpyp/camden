@@ -1,0 +1,12 @@
+{{#if carousel}}
+    {{#if theme_settings.carousel-type '===' 'standard'}}
+        {{> components/f/hero/carousel arrows=theme_settings.homepage_show_carousel_arrows}}
+    {{else}}
+        {{> components/f/hero/storyboard}}
+    {{/if}}
+{{/if}}
+{{#if theme_settings.show-login-on-homepage}}
+    {{#unless customer}}
+        {{> components/f/auth/login-form from_home=true}}
+    {{/unless}}
+{{/if}}

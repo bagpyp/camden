@@ -1,0 +1,1758 @@
+---
+category:
+    shop_by_price: true
+    products:
+        limit: {{theme_settings.categorypage_products_per_page}}
+---
+{{inject "categoryProductsPerPage" theme_settings.categorypage_products_per_page}}
+{{#unless theme_settings.performance_mode_swatches}}
+    {{inject "enableSwatches" theme_settings.show_swatches_on_grid}}
+    {{inject "enableSizes" theme_settings.show_sizes_on_grid}}
+{{/unless}}
+{{inject "enableImageHoverSwitcher" theme_settings.enable_image_hover_switcher}}
+{{inject "productCount" category.count}}
+{{inject "productTotal" category.total_products}}
+{{inject "enableInfiniteScrolling" theme_settings.enable_infinte_scrolling}}
+{{inject "enableSideCart" theme_settings.enable_side_cart}}
+{{inject "disableMinicart" theme_settings.enable_side_cart}}
+{{inject "displayMode" theme_settings.product_list_display_mode}}
+{{#partial "head"}}
+    {{#if pagination.category.previous}}
+        <link rel="prev" href="{{pagination.category.previous}}">
+    {{/if}}
+    {{#if pagination.category.next}}
+        <link rel="next" href="{{pagination.category.next}}">
+    {{/if}}
+{{/partial}}
+
+{{#partial "page"}}
+
+{{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
+
+<div class="category__header" id="headerTitleContainer">
+  {{#unless theme_settings.hide_category_image_on_categories}}
+      {{#if category.image}}
+          <div class="category__image-container">
+              <img class="category__image lazyload" data-sizes="auto" src="{{cdn 'img/loading.svg'}}" data-src="{{getImage category.image 'zoom_size'}}">
+          </div>
+      {{/if}}
+  {{/unless}}
+
+  {{> components/f/category/header-title}}
+</div>
+
+{{{snippet 'categories'}}}
+    {{#if category.subcategories}}
+        {{#if theme_settings.show_subcategories_as_grid}}
+            {{#if category.products}}
+                <div class="page-sidebar {{#unless category.show_compare}}page-sidebar--small-btn{{/unless}}" id="faceted-search-container">
+                    {{> components/category/sidebar}}
+                </div>
+            {{/if}}
+        {{else}}
+            <div class="page-sidebar {{#unless category.show_compare}}page-sidebar--small-btn{{/unless}}" id="faceted-search-container">
+                {{> components/category/sidebar}}
+            </div>
+        {{/if}}
+    {{else if category.faceted_search_enabled}}
+    {{#if theme_settings.show_subcategories_as_grid}}
+        {{#if category.products}}
+            <div class="page-sidebar" id="faceted-search-container">
+                {{> components/category/sidebar}}
+            </div>
+        {{/if}}
+    {{else}}
+        <div class="page-sidebar" id="faceted-search-container">
+            {{> components/category/sidebar}}
+        </div>
+    {{/if}}
+{{else if category.shop_by_price}}
+    {{#if theme_settings.shop_by_price_visibility}}
+        {{#if theme_settings.show_subcategories_as_grid}}
+            {{#if category.products}}
+                <div class="page-sidebar {{#unless category.show_compare}}page-sidebar--small-btn{{/unless}}" id="faceted-search-container">
+                    {{> components/category/sidebar}}
+                </div>
+            {{/if}}
+        {{else}}
+            <div class="page-sidebar {{#unless category.show_compare}}page-sidebar--small-btn{{/unless}}" id="faceted-search-container">
+                {{> components/category/sidebar}}
+            </div>
+        {{/if}}
+    {{else if category.shop_by_price}}
+        {{#if theme_settings.shop_by_price_visibility}}
+            {{#if theme_settings.show_subcategories_as_grid}}
+                {{#if category.products}}
+                    <div class="page-sidebar {{#unless category.show_compare}}page-sidebar--small-btn{{/unless}}" id="faceted-search-container">
+                        {{> components/category/sidebar}}
+                    </div>
+                {{/if}}
+            {{else}}
+                <div class="page-sidebar {{#unless category.show_compare}}page-sidebar--small-btn{{/unless}}" id="faceted-search-container">
+                    {{> components/category/sidebar}}
+                </div>
+            {{/if}}
+        {{/if}}
+    {{/if}}
+{{/if}}
+
+<div class="category-options">
+    {{#if category.show_compare}}
+        <a class="button category-compare" href="{{urls.compare}}" data-compare-nav>{{lang 'common.compare'}} <span class="countPill countPill--alt"></span></a>
+    {{/if}}
+
+    {{> components/products/filter sort=pagination.category.sort}}
+
+    <div class="show-style">
+      {{#unless theme_settings.hide_product_count_on_category}}
+          {{> components/f/category/show-amount}}
+      {{/unless}}
+
+      {{> components/f/grid-list-switcher/switcher}}
+    </div>
+</div>
+
+<div class="page page--{{theme_settings.product_list_display_mode}}" data-sticky-container="true">
+    <main class="page-content{{#if theme_settings.enable_side_cart}} side-cart-enabled{{/if}} page" id="product-listing-container">
+        {{#and category.subcategories theme_settings.show_subcategories_as_grid}}
+            {{> components/f/category/sub-categories}}
+        {{/and}}
+
+        {{#if category.products}}
+            {{> components/f/category/product-listing settings=../settings}}
+        {{else}}
+            {{#if theme_settings.show_subcategories_as_grid}}
+                {{#unless category.subcategories}}
+                    <p>{{lang 'categories.no_products'}}</p>
+                {{/unless}}
+            {{else}}
+                <p>{{lang 'categories.no_products'}}</p>
+            {{/if}}
+        {{/if}}
+
+        <style>
+            #main-rental-card {
+                margin-top: 20px;
+                margin-bottom: 20px;
+                z-index: 1;
+            }
+
+            .page-content {
+                width: 100%;
+            }
+
+        </style>
+        <div class='page-content'>
+            <div id='main-rental-card'>
+                <script>
+                    function rentalCardFlip() {
+                        const sideA = document.getElementById('rental-card-front');
+                        const sideB = document.getElementById('rental-card-back');
+                        if (sideA.style.display != 'none') {
+                            sideA.style.display = 'none';
+                            sideB.style.display = 'grid';
+                            console.log(sideB.style.display);
+                        }
+                    }
+                  //↑↑--PRICING CARD ONCLICK ABOVE--↑↑//
+                //↓↓--MENU CATAGORIES' ONCLICKS BELOW--↓↓//
+                    function rentalCardClickB() {
+                        const menu = document.getElementById('rental-menu');
+                        const sideB = document.getElementById('rental-card-back');
+                        if (sideB.style.display != 'none') {
+                            menu.style.width = '240px';
+                            menu.style.textAlign = 'center';
+                        // } else if (sideB.style.width < '500px')
+                        //     menu.style.width = '100vw';
+                            }
+                        }
+                        
+
+
+                    function skiMenuClick() {
+                        const skiBody = document.getElementById('ski-body');
+                        const snowboardBody = document.getElementById('snowboard-body');
+                        const snowshoeBody = document.getElementById('snowshoe-body');
+                        const kayakBody = document.getElementById('kayak-body');
+                        const paddleboardBody = document.getElementById('paddleboard-body');
+                        const mountaineeringBody = document.getElementById('mountaineering-body');
+                        const outerwearBody = document.getElementById('outerwear-body');
+                        const wake = document.getElementById('wake-sports-body');
+                        if (skiBody.style.display = 'none') {
+                            skiBody.style.display = 'inline-block';
+                            wake.style.display = 'none';
+                            snowboardBody.style.display = 'none';
+                            paddleboardBody.style.display = 'none';
+                            snowshoeBody.style.display = 'none';
+                            kayakBody.style.display = 'none';
+                            mountaineeringBody.style.display = 'none';
+                            outerwearBody.style.display = 'none';
+                        }
+                    }
+
+                    function snowboardMenuClick() {
+                        const skiBody = document.getElementById('ski-body');
+                        const snowboardBody = document.getElementById('snowboard-body');
+                        const snowshoeBody = document.getElementById('snowshoe-body');
+                        const kayakBody = document.getElementById('kayak-body');
+                        const paddleboardBody = document.getElementById('paddleboard-body');
+                        const mountaineeringBody = document.getElementById('mountaineering-body');
+                        const outerwearBody = document.getElementById('outerwear-body');
+                        const wake = document.getElementById('wake-sports-body');
+                        if (snowboardBody.style.display = 'none') {
+                            snowboardBody.style.display = 'inline-block';
+                            wake.style.display = 'none';
+                            skiBody.style.display = 'none';
+                            paddleboardBody.style.display = 'none';
+                            snowshoeBody.style.display = 'none';
+                            kayakBody.style.display = 'none';
+                            mountaineeringBody.style.display = 'none';
+                            outerwearBody.style.display = 'none';
+                        }
+                    }
+
+                    function snowshoeMenuClick() {
+                        const skiBody = document.getElementById('ski-body');
+                        const snowboardBody = document.getElementById('snowboard-body');
+                        const snowshoeBody = document.getElementById('snowshoe-body');
+                        const kayakBody = document.getElementById('kayak-body');
+                        const paddleboardBody = document.getElementById('paddleboard-body');
+                        const mountaineeringBody = document.getElementById('mountaineering-body');
+                        const outerwearBody = document.getElementById('outerwear-body');
+                        const wake = document.getElementById('wake-sports-body');
+                        if (snowshoeBody.style.display = 'none') {
+                            snowshoeBody.style.display = 'inline-block';
+                            wake.style.display = 'none';
+                            skiBody.style.display = 'none';
+                            snowboardBody.style.display = 'none';
+                            paddleboardBody.style.display = 'none';
+                            kayakBody.style.display = 'none';
+                            mountaineeringBody.style.display = 'none';
+                            outerwearBody.style.display = 'none';
+                        }
+                    }
+
+                    function kayakMenuClick() {
+                        const skiBody = document.getElementById('ski-body');
+                        const snowboardBody = document.getElementById('snowboard-body');
+                        const snowshoeBody = document.getElementById('snowshoe-body');
+                        const kayakBody = document.getElementById('kayak-body');
+                        const paddleboardBody = document.getElementById('paddleboard-body');
+                        const mountaineeringBody = document.getElementById('mountaineering-body');
+                        const outerwearBody = document.getElementById('outerwear-body');
+                        const wake = document.getElementById('wake-sports-body');
+                        if (kayakBody.style.display = 'none') {
+                            kayakBody.style.display = 'inline-block';
+                            wake.style.display = 'none';
+                            skiBody.style.display = 'none';
+                            snowboardBody.style.display = 'none';
+                            snowshoeBody.style.display = 'none';
+                            paddleboardBody.style.display = 'none';
+                            mountaineeringBody.style.display = 'none';
+                            outerwearBody.style.display = 'none';
+                        }
+                    }
+
+                    function paddleboardMenuClick() {
+                        const skiBody = document.getElementById('ski-body');
+                        const snowboardBody = document.getElementById('snowboard-body');
+                        const snowshoeBody = document.getElementById('snowshoe-body');
+                        const kayakBody = document.getElementById('kayak-body');
+                        const paddleboardBody = document.getElementById('paddleboard-body');
+                        const mountaineeringBody = document.getElementById('mountaineering-body');
+                        const outerwearBody = document.getElementById('outerwear-body');
+                        const wake = document.getElementById('wake-sports-body');
+                        if (paddleboardBody.style.display = 'none') {
+                            paddleboardBody.style.display = 'inline-block';
+                            wake.style.display = 'none';
+                            skiBody.style.display = 'none';
+                            snowboardBody.style.display = 'none';
+                            snowshoeBody.style.display = 'none';
+                            kayakBody.style.display = 'none';
+                            mountaineeringBody.style.display = 'none';
+                            outerwearBody.style.display = 'none';
+                        }
+                    }
+
+                    function mountaineeringMenuClick() {
+                        const skiBody = document.getElementById('ski-body');
+                        const snowboardBody = document.getElementById('snowboard-body');
+                        const snowshoeBody = document.getElementById('snowshoe-body');
+                        const kayakBody = document.getElementById('kayak-body');
+                        const paddleboardBody = document.getElementById('paddleboard-body');
+                        const mountaineeringBody = document.getElementById('mountaineering-body');
+                        const outerwearBody = document.getElementById('outerwear-body');
+                        const wake = document.getElementById('wake-sports-body');
+                        if (mountaineeringBody.style.display = 'none') {
+                            mountaineeringBody.style.display = 'inline-block';
+                            wake.style.display = 'none';
+                            skiBody.style.display = 'none';
+                            snowboardBody.style.display = 'none';
+                            snowshoeBody.style.display = 'none';
+                            kayakBody.style.display = 'none';
+                            paddleboardBody.style.display = 'none';
+                            outerwearBody.style.display = 'none';
+                        }
+                    }
+
+                    function outerwearMenuClick() {
+                        const skiBody = document.getElementById('ski-body');
+                        const snowboardBody = document.getElementById('snowboard-body');
+                        const snowshoeBody = document.getElementById('snowshoe-body');
+                        const kayakBody = document.getElementById('kayak-body');
+                        const paddleboardBody = document.getElementById('paddleboard-body');
+                        const mountaineeringBody = document.getElementById('mountaineering-body');
+                        const outerwearBody = document.getElementById('outerwear-body');
+                        const wake = document.getElementById('wake-sports-body');
+                        if (outerwearBody.style.display = 'none') {
+                            outerwearBody.style.display = 'inline-block';
+                            wake.style.display = 'none';
+                            skiBody.style.display = 'none';
+                            snowboardBody.style.display = 'none';
+                            snowshoeBody.style.display = 'none';
+                            kayakBody.style.display = 'none';
+                            paddleboardBody.style.display = 'none';
+                            mountaineeringBody.style.display = 'none';
+                        }
+                    }
+
+                    function wakeSportsMenuClick() {
+                        const skiBody = document.getElementById('ski-body');
+                        const snowboardBody = document.getElementById('snowboard-body');
+                        const snowshoeBody = document.getElementById('snowshoe-body');
+                        const kayakBody = document.getElementById('kayak-body');
+                        const paddleboardBody = document.getElementById('paddleboard-body');
+                        const mountaineeringBody = document.getElementById('mountaineering-body');
+                        const outerwearBody = document.getElementById('outerwear-body');
+                        const wake = document.getElementById('wake-sports-body');
+                        if (wake.style.display = 'none') {
+                            wake.style.display = 'inline-block';
+                            snowboardBody.style.display = 'none';
+                            skiBody.style.display = 'none';
+                            paddleboardBody.style.display = 'none';
+                            snowshoeBody.style.display = 'none';
+                            kayakBody.style.display = 'none';
+                            mountaineeringBody.style.display = 'none';
+                            outerwearBody.style.display = 'none';
+                        }
+                    }
+                        
+                //↑↑--MENU CATAGORIES' ONCLICKS ABOVE--↑↑//
+
+        //↓↓--PRICE SUB CATAGORIES BUTTONS' ONCLICKS BELOW--↓↓//
+                    function adultSkiClick() {
+                        const adult = document.getElementById('adult-ski-prices');
+                        const youth = document.getElementById('youth-ski-prices');
+                        const crosscountry = document.getElementById('crosscountry-youth-prices');
+                        const poles = document.getElementById('poles-prices');
+                        const helmet = document.getElementById('helmet-prices');
+                        if (adult.style.display = 'none') {
+                            adult.style.display = 'flex';
+                            youth.style.display = 'none';
+                            crosscountry.style.display = 'none';
+                            poles.style.display = 'none';
+                            helmet.style.display = 'none';
+                        } 
+                    }
+                    
+                    function youthSkiClick() {
+                        const adult = document.getElementById('adult-ski-prices');
+                        const youth = document.getElementById('youth-ski-prices');
+                        const crosscountry = document.getElementById('crosscountry-youth-prices');
+                        const poles = document.getElementById('poles-prices');
+                        const helmet = document.getElementById('helmet-prices');
+                        if (youth.style.display = 'none') {
+                            youth.style.display = 'flex'
+                            adult.style.display = 'none'
+                            crosscountry.style.display = 'none';
+                            helmet.style.display = 'none';
+                        } 
+                    }
+
+                    function crosscountryClick() {
+                        const adult = document.getElementById('adult-ski-prices');
+                        const youth = document.getElementById('youth-ski-prices');
+                        const crosscountryY = document.getElementById('crosscountry-youth-prices');
+                        const helmet = document.getElementById('helmet-prices');
+                        if (crosscountryY.style.display = 'none') {
+                            crosscountryY.style.display = 'flex'
+                            adult.style.display = 'none'
+                            youth.style.display = 'none';
+                            helmet.style.display = 'none';
+                        } 
+                    }
+
+                    function helmetsClick() {
+                        const helmet = document.getElementById('helmet-prices');
+                        const adult = document.getElementById('adult-ski-prices');
+                        const youth = document.getElementById('youth-ski-prices');
+                        const crosscountryY = document.getElementById('crosscountry-youth-prices');
+                        if (helmet.style.display = 'none') {
+                            helmet.style.display = 'flex'
+                            adult.style.display = 'none'
+                            crosscountryY.style.display = 'none';
+                            youth.style.display = 'none';
+                        } 
+                    }
+
+                    function adultSnowboardClick() {
+                        const adult = document.getElementById('adult-snowboard-prices');
+                        const youth = document.getElementById('youth-snowboard-prices');
+                        if (adult.style.display = 'none') {
+                            adult.style.display = 'flex'
+                            youth.style.display = 'none'
+                        } 
+                    }
+
+                    function youthSnowboardClick() {
+                        const adult = document.getElementById('adult-snowboard-prices');
+                        const youth = document.getElementById('youth-snowboard-prices');
+                        if (youth.style.display = 'none') {
+                            youth.style.display = 'flex'
+                            adult.style.display = 'none'
+                        } 
+                    }
+                    
+                </script>
+
+                <style>
+                    #rental-card-front {
+                        background-image: url("{{cdn 'assets/img/hillcrest/rentals/pricing-click.png'}}");
+                        height: 310px;
+                        background-size: cover;
+                        background-position: center bottom;
+                        max-width: 960px;
+                        margin: 0 auto;
+                        position: relative;
+                        transition: 1s;
+                    }
+
+                    #rental-card-front:hover {
+                        transform: scale(1.05);
+                        box-shadow: 0 0 35px #ffee10;
+                        transition: 1s;
+                    } 
+
+
+                    #rental-card-front:hover {
+                        box-shadow: 0 0 25px #f1a500;
+                        transition: .75s;
+                        cursor: pointer;
+                    }
+
+                    @media only screen and (max-width: 1024px) {
+                    /*For smaller laptops: */
+                         #rental-card-front {
+                             height: 33vmin;
+                             width: 93vmin;
+                         } 
+                    }
+
+                    @media only screen and (max-width: 768px) {
+                        /* For mobile phones: */
+                        #rental-card-front {
+                            left: -55;
+                        }
+                    }
+
+                </style>
+                <div id='rental-card-front' onclick="rentalCardFlip()">
+                </div>
+
+                <style>
+                    #rental-card-back {
+                        background-color: #E0E0E0;
+                        background-size: cover;
+                        left: 0;
+                        padding: 0;
+                        display: none;
+                        border-radius: 10px;
+                        grid-template-columns: 240px auto;
+                        z-index: 1;
+                        position: relative;
+                        max-width: 960px;
+                        margin: 0 auto;
+                        border-bottom-right-radius: 0;
+                        margin-bottom: 20px;
+                    }
+
+                    #rental-menu {
+                        background-color: #4C86A8;
+                        color: white;
+                        width: 960px;
+                        padding: 10px;
+                        padding: 0px;
+                        height: 350px;
+                        border-radius: 10px;
+                        border-bottom-left-radius: 0;
+                        border-bottom-right-radius: 0;
+                        z-index: 2;
+                    }
+                
+                    .rent-menu-item {
+                        height: 44px;
+                        padding: 4px;
+                    }
+
+                    .rent-menu-item:hover {
+                        background-color: #f1a500;
+                        transition: .4s;
+                        cursor: pointer; 
+                    }
+
+                    .rent-menu-item p {
+                        font-size: 18px;
+                        font-weight: 500;
+                        transition: 1s;
+                    }
+
+                    .rentals-body {
+                        text-align: center;
+                        background: #E0E0E0;
+                        width: 86%;
+                        height: 100%;
+                    }
+
+                    .rental-catagory-main {
+                        width: 75%;
+                    }
+
+                    .rentals-title {
+                        color: #4C86A8;
+                        font-size: 70px;
+                        padding-top: 0px;
+                        padding-bottom: 0px;
+                        text-align: center;
+                        width: 100%;
+                    }
+
+                    .rentals-title-2 {
+                        color: #4C86A8;
+                        font-size: 58px;
+                        padding-top: 0px;
+                        padding-bottom: 0px;
+                        text-align: center;
+                        width: 120%;
+                    }
+
+                    .rentals-body-middle {
+                        margin-top: 10px;
+                        padding: 12px;
+                        font-size: calc(9px + 1.1vmin);
+                        width: 110%;
+                        background-color: white;
+                    }
+
+                    .rentals-body-middle-ski {
+                        margin-top: 10px;
+                        padding: 12px;
+                        font-size: calc(9px + 1.1vmin);   
+                        width: 80%;                    
+                        background-color: white;
+                        min-height: 200px;  
+                    }
+
+
+                    .rentals-body-bottom {
+                        position: relative;
+                        left: -175px;
+                        top: 30px;
+                        background-color: white;
+                        padding: 12px;
+                        font-size: calc(12px + 0.8vmin);
+                        width: 135%;
+                        padding-bottom: 20px;
+                        margin-bottom: 20px;
+                    }
+
+                    .rentals-body-bottom-ski {
+                        position: relative;
+                        left: -160px;
+                        top: 30px;
+                        background-color: white;
+                        padding: 12px;
+                        font-size: calc(12px + 0.8vmin);
+                        width: 100%;
+                        padding-bottom: 20px;
+                        margin-bottom: 20px;
+                    }
+
+                    .rentals-btns-ski {
+                        position: relative;
+                        display: inline-flex;
+                        left: -240px;
+                        top: 21px;
+                        width: auto;
+                        background-color: white;
+                        padding: 15px;
+                        height: 95px;
+                        border-top: none;
+                        align-content: center;
+                    }
+
+                    .rentals-btns {
+                        position: relative;
+                        display: inline-flex;
+                        top: 21px;
+                        left: -50px;
+                        width: auto;
+                        background-color: white;
+                        padding: 15px;
+                        height: 95px;
+                        border-radius: 15px;
+                        border-top: none;
+                        align-content: center;
+                    }
+
+                    .rentals-btns p:hover {
+                        background-color: #4C86A8;
+                        color: white;
+                        cursor: pointer;
+                        transition: .5s;
+                        box-shadow: 0 0 15px #f1a500;
+                    }
+
+                    .rentals-btns p{
+                        background-color: #f1a500;
+                    }
+
+                    
+                    .rentals-btns-a p {
+                        border: 2px double #4C86A8;
+                        width: 105px;
+                        border-radius: 20px;
+                        font-size: 33px;
+                        margin: 0 1.2vmin;
+                        padding: 5px;
+                        margin-bottom: 20px;
+                    }
+
+                    .rentals-btns-ski p:hover {
+                        background-color: #4C86A8;
+                        color: white;
+                        cursor: pointer;
+                        transition: .5s;
+                        box-shadow: 0 0 15px #f1a500;
+                    }
+
+                    .rentals-btns-ski p{
+                        background-color: #f1a500;
+                    }
+
+                
+                    .rentals-btns-b p {
+                        border: 2px double #4C86A8;
+                        height: 60px;
+                        border-radius: 20px;
+                        font-size: 33px;
+                        width: 270px;
+                    }
+
+                    .rentals-btns-e p {
+                        border: 2px double #4C86A8;
+                        height: 60px;
+                        border-radius: 20px;
+                        font-size: 33px;
+                        width: 220px;
+                        margin: 0 1.2vmin;
+                        margin-bottom: 20px;
+                    }
+
+                    .red {
+                        color: #4C86A8;
+                    }
+
+                    .rentals-price-catagory {
+                        display: flex;
+                        position: relative;
+                        left: -150px;
+                        margin: 21px;
+                        margin-right: 7vmin;
+                        background-color: #4C86A8;
+                        width: auto;
+                        padding: 12px;
+                        color: white;
+                    }
+
+                    .rentals-price-catagory h2{
+                        font-size: 30px;
+                        margin: auto auto;
+                    }
+
+                    .rentals-price-catagory ul{
+                        list-style-type: none;
+                        font-size: calc(12px + 1vmin);
+                        margin: auto auto;
+                    }
+
+                    .rentals-price-catagory-mount {
+                        display: flex;
+                        position: relative;
+                        left: -250px;
+                        margin: 21px;
+                        margin-right: 7vmin;
+                        background-color: #4C86A8;
+                        width: auto;
+                        padding: 12px;
+                        color: white;
+                    }
+
+                    .rentals-price-catagory-mount h2{
+                        font-size: 30px;
+                        margin: auto auto;
+                    }
+
+                    .rentals-price-catagory-mount ul{
+                        list-style-type: none;
+                        font-size: calc(12px + 1vmin);
+                        margin: auto auto;
+                    }
+
+                    .rentals-prices{ 
+                        position: relative;
+                        z-index: 2;
+                        width: 135%;
+                        top: 20px;
+                    }
+
+                    .rentals-prices-ski{ 
+                        z-index: 2;
+                        position: relative;
+                        top: 20px;
+                    }
+
+                    .white {
+                        color: black;
+                        background-color:#4ca89c
+                    }
+
+                    #ski-body {
+                        display: none;
+                    }
+
+                    #snowboard-body {
+                        display: none;
+                    }
+
+                    #snowshoe-body {
+                        display: none;
+                    }
+
+                    #kayak-body {
+                        display: none;
+                    }
+
+                    #paddleboard-body {
+                        display: none;
+                    }
+
+                    #mountaineering-body {
+                        display: none;
+                    }
+
+                    #outerwear-body {
+                        display: none;
+                    }
+
+                    #wake-sports-body {
+                        display: none;
+                    }
+
+                    #adult-ski-prices {
+                        display: none;
+                    }
+
+                    #youth-ski-prices {
+                        display: none;
+                    }
+
+                    #crosscountry-youth-prices {
+                        display: none;
+                    }
+
+                    #crosscountry-adult-prices {
+                        display: none;
+                    }
+
+                    #poles-prices {
+                        display: none;
+                    }
+
+                    #helmet-prices {
+                        display: none;
+                    }
+
+                    #adult-snowboard-prices {
+                        display: none;
+                    }
+
+                    #youth-snowboard-prices {
+                        display: none;
+                    }
+
+                    #snowshoe-prices {
+                        display: none;
+                    }
+
+                    #kayak-prices {
+                        display: none;
+                    }
+
+                    #wakesurf-prices {
+                        display: none;
+                    }
+
+                    #paddleboard-prices {
+                        display: none;
+                    }
+
+                    #mountaineering-prices {
+                        display: none;
+                    }
+
+                    #outerwear-prices {
+                        display: none;
+                    }
+
+                    #wakeboard-prices {
+                        display: none;
+                    }
+                    
+                    @media only screen and (max-width: 1024px) {
+                    /*For smaller laptops: */
+                    .rentals-btns-ski {
+                        display: block;
+                        width: auto;
+                        height: auto;
+                        }  
+                    }
+
+                    @media only screen and (max-width: 500px) {
+                    /* For mobile phones: */
+                        #rental-menu {
+                            width: 85vw;
+                        }
+
+                        #rental-card-back {
+                            min-height: 310px;
+                            grid-template-columns: 1.2vmin;
+                            max-width: 90vw;
+                        }
+
+                        .rentals-title {
+                            font-size: calc(22px + 3vmin);
+                            display: inline-block;
+                        }
+
+                        .rentals-title-2 {
+                            font-size: calc(22px + 3vmin);
+                            display: inline-block;
+                        }
+
+                        .rentals-body-middle {
+                            display: inline-block;
+                            width: 95vw;
+                            position: relative;
+                            left: -30px;
+                            font-size: calc(10px + 1.5vmin);
+                        }
+
+                        .rentals-btns {
+                            display: inline-block;
+                            height: 100%;
+                        }
+
+                        .rentals-btns-ski {
+                            display: inline-block;
+                            left: 0px;
+                            height: 100%;
+                        }
+
+                        .rentals-body-bottom {
+                            display: inline-block;
+                            position: relative;
+                            left: -20px;
+                            width: 90vw; 
+                        }
+
+                        .rentals-body-middle-ski {
+                            margin-top: 10px;
+                            width: 95vw;               
+                        }
+
+                        .rentals-body-bottom-ski {
+                            width: 80vw;
+                            left: 8px;
+                        }
+
+                        .rentals-price-catagory {
+                            left: -40px;
+                            width: 100vw;
+                        }
+
+                        .rentals-price-catagory h2{
+                            display: none;
+                        }
+
+                        .rentals-price-catagory-mount {
+                            left: -40px;
+                            width: 100vw;
+                        }
+
+                        .rentals-price-catagory-mount h2{
+                            display: none;
+                        }
+
+                        h1{
+                            text-align: left;
+                        }
+                    }
+
+                </style>
+                <div id='rental-card-back' onclick="rentalCardClickB()">
+                    <div id='rental-menu'>
+                        <div id='ski-card' class='rent-menu-item' onClick='skiMenuClick()'>
+                            <p>Ski Rentals</p>
+                        </div>
+                        <div id='snowboard-card' class='rent-menu-item' onClick='snowboardMenuClick()'>
+                            <p>Snowboard Rentals</p>
+                        </div>
+                        <div id='snowshoe-card' class='rent-menu-item' onClick='snowshoeMenuClick()'>
+                            <p>Snowshoe Rentals</p>
+                        </div>
+                        <div id='kayak-card' class='rent-menu-item' onClick='kayakMenuClick()'>
+                            <p>Kayak Rentals</p>
+                        </div>
+                        <div id='paddleboard-card' class='rent-menu-item' onClick='paddleboardMenuClick()'>
+                            <p>Paddleboard Rentals</p>
+                        </div>
+                        <div id='mountaineering-card' class='rent-menu-item' onClick='mountaineeringMenuClick()'>
+                            <p>Mountaineering Rentals</p>
+                        </div>
+                        <div id='outerwear-card' class='rent-menu-item' onClick='outerwearMenuClick()'>
+                            <p>Outerwear Rentals</p>
+                        </div>
+                        <div id='wake-sport-card' class='rent-menu-item' onClick='wakeSportsMenuClick()'>
+                            <p>Wake Sports Rentals</p>
+                        </div>
+                    </div>
+                    <div class='rentals-body'>
+                        <div class='side-b-body' id='ski-body'>
+                            <div class='rental-catagory-main'>
+                                <div class='rentals-body-top'>
+                                    <h1 class='rentals-title'>
+                                        Ski Rentals
+                                    </h1>
+                                </div>
+                            </div>
+                            <div class='rentals-body-middle-ski'>
+                                <p>
+                                    Enjoy the slopes with Hillcrest Ski & Sports’ ski rentals! We offer a variety of ski equipment rentals including men’s skis and boots, women’s skis and boots, and kid’s skis and boots. Every ski package also comes with bindings and poles. New to skiing? We have experienced technician to properly fit you for your equipment-- depending on your skill level, and they’ll also provide a demonstration for you. All rentals are on a first-come, first-serve basis. Once you rent your ski equipment, you’ll have it for 24 hours, however, longer rentals are available.
+                                </p>
+                            </div>
+                            <div class='rentals-btns-ski'>
+                                <div class='rentals-btns-a rBtn'>
+                                    <p onclick='adultSkiClick()'>Adult</p>
+                                </div>
+                                <div class='rentals-btns-a rBtn'>
+                                    <p onclick='youthSkiClick()'>Youth</p>
+                                </div>
+                                <div class='rentals-btns-e rBtn'>
+                                    <p onclick='crosscountryClick()'>X-Country</p>
+                                </div>
+                                <div class='rentals-btns-b rBtn'>
+                                    <p onclick='helmetsClick()'>Poles & Helmets</p>
+                                </div>
+                            </div>
+                            <div class='rentals-prices-ski'>
+                                <div class='rentals-price-catagory' id='adult-ski-prices'>
+                                    <h2>Adult</br>Ski</br>Prices</h2>
+                                    <ul>
+                                        <li class='red'>1 Day</li>
+                                        <li class='white'>1 Day</li>
+                                        <li>2 Day</li>
+                                        <li class='white'>3 Day</li>
+                                        <li>1 Week</li>
+                                        <li class='white'>2 Week</li>
+                                        <li>4 Week</li>
+                                        <li class='white'>6 Week</li>
+                                        <li>8 Week</li>
+                                        <li class='white'>Full Season</li>
+                                    </ul>
+                                    <ul><strong>Package</strong>
+                                        <li class='white'>$42</li>
+                                        <li>$62</li>
+                                        <li class='white'>$78</li>
+                                        <li>$92</li>
+                                        <li class='white'>$108</li>
+                                        <li>$135</li>
+                                        <li class='white'>$169</li>
+                                        <li>$199</li>
+                                        <li class='white'>$245</li>
+                                    </ul>
+                                    <ul><strong>Skis Only</strong>
+                                        <li class='white'>$30</li>
+                                        <li>$45</li>
+                                        <li class='white'>$55</li>
+                                        <li>$65</li>
+                                        <li class='white'>$85</li>
+                                        <li>$99</li>
+                                        <li class='white'>$125</li>
+                                        <li class='red'>$199</li>
+                                        <li class='white'>$155</li>
+                                    </ul>
+                                    <ul><strong>Boots with Inspection</strong>
+                                        <li class='white'>$37</li>
+                                        <li>$42</li>
+                                        <li class='white'>$47</li>
+                                        <li>$63</li>
+                                        <li class='white'>$72</li>
+                                        <li>$91</li>
+                                        <li class='white'>$105</li>
+                                        <li>$117</li>
+                                        <li class='white'>$129</li>
+                                    </ul>
+                                </div>
+                                <div class='rentals-price-catagory' id='youth-ski-prices'>
+                                    <h2>Youth</br>Ski</br>Prices</h2>
+                                    <ul>
+                                        <li class='red'>1 Day</li>
+                                        <li>1 Day</li>
+                                        <li class='white'>2 Day</li>
+                                        <li>3 Day</li>
+                                        <li class='white'>1 Week</li>
+                                        <li>2 Week</li>
+                                        <li class='white'>4 Week</li>
+                                        <li>6 Week</li>
+                                        <li class='white'>8 Week</li>
+                                        <li>Full Season</li>
+                                    </ul>
+                                    <ul><strong>Package</strong>
+                                        <li>$30</li>
+                                        <li class='white'>$40</li>
+                                        <li>$52</li>
+                                        <li class='white'>$67</li>
+                                        <li>$75</li>
+                                        <li class='white'>$95</li>
+                                        <li>$115</li>
+                                        <li class='white'>$145</li>
+                                        <li>$189</li>
+                                    </ul>
+                                    <ul><strong>Skis Only</strong>
+                                        <li>$18</li>
+                                        <li class='white'>$21</li>
+                                        <li>$26</li>
+                                        <li class='white'>$32</li>
+                                        <li>$39</li>
+                                        <li class='white'>$59</li>
+                                        <li>$79</li>
+                                        <li class='white'>$99</li>
+                                        <li>$135</li>
+                                    </ul>
+                                    <ul><strong>Boots with Inspection</strong>
+                                        <li>$25</li>
+                                        <li class='white'>$28</li>
+                                        <li>$33</li>
+                                        <li class='white'>$41</li>
+                                        <li>$47</li>
+                                        <li class='white'>$57</li>
+                                        <li>$67</li>
+                                        <li class='white'>$77</li>
+                                        <li>$98</li>
+                                    </ul>
+                                </div>
+                                <div class='rentals-price-catagory' id='crosscountry-youth-prices'>
+                                    <h2>X-Csounty</br>Prices</h2>
+                                    <ul><strong></strong>
+                                        <li class='red'>1 Day</li>
+                                        <li class='white'>1 Day</li>
+                                        <li>2 Day</li>
+                                        <li class='white'>3 Day</li>
+                                        <li>1 Week</li>
+                                        <li class='white'>2 Week</li>
+                                        <li>4 Week</li>
+                                    </ul>
+                                    <ul><strong>Package</strong>
+                                        <li class='white'>$20</li>
+                                        <li>$27</li>
+                                        <li class='white'>$36</li>
+                                        <li>$49</li>
+                                        <li class='white'>$55</li>
+                                        <li>$85</li>
+                                    </ul>
+                                    <ul><strong>Skis Only</strong>
+                                        <li class='white'>$12</li>
+                                        <li>$14</li>
+                                        <li class='white'>$18</li>
+                                        <li>$25</li>
+                                        <li class='white'>$34</li>
+                                        <li>$45</li>
+                                    </ul>
+                                    <ul><strong>Boots with Inspection</strong>
+                                        <li class='white'>$12</li>
+                                        <li>$18</li>
+                                        <li class='white'>$25</li>
+                                        <li>$35</li>
+                                        <li class='white'>$45</li>
+                                        <li>$60</li>
+                                    </ul>
+                                </div>
+                                <div class='rentals-price-catagory' id='helmet-prices'>
+                                    <h2>Helmet</br>Prices</h2>
+                                    <ul>
+                                        <li class='red'>1 Day</li>
+                                        <li class='white'>1 Day</li>
+                                        <li>2 Day</li>
+                                        <li class='white'>3 Day</li>
+                                        <li>1 Week</li>
+                                        <li class='white'>2 Week</li>
+                                        <li>4 Week</li>
+                                    </ul>
+                                    <ul><strong>Helmet</strong>
+                                        <li class='white'>$8</li>
+                                        <li>$12</li>
+                                        <li class='white'>$16</li>
+                                        <li>$29</li>
+                                        <li class='white'>$39</li>
+                                        <li>$49</li>
+                                    </ul>
+                                    <ul><strong>Poles(2)</strong>
+                                        <li class='white'>$7</li>
+                                        <li>$9</li>
+                                        <li class='white'>$12</li>
+                                        <li>$19</li>
+                                        <li class='white'>$20</li>
+                                        <li>$25</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class='rentals-body-bottom-ski'>
+                                <h2>
+                                    Ski Package Rental
+                                </h2>
+                                <p>
+                                    To have an enjoyable skiing experience, it’s important to have a pair of skis that are the perfect length for you. To do this, we at Hillcrest Sports will measure your height and weight, learn your skill level as well as learn what terrain you’ll be on. The type of skis we’ll give you will be based on the type of skiing you plan to do.
+                                </br>
+                                    All-Mountain skis are great for a mix of terrain including groomed and powder. They are suited for all skill levels and age groups.
+
+                                </br>
+                                    All-Mountain wide skies work well in groomed areas and powder areas. They are slightly wider in the waist than the all-mountain ski. Wide skis are only available for demo.
+                                </br>
+                                    Powder skis are best if you plan on skiing in deep powder snow.
+                                </p>
+                                <h2>
+                                    Rental Ski Boots
+                                </h2>
+                                <p>
+                                    Your ski boots are perhaps the most important part of your rental package. If they’re too stiff, too small or too large, you will not have a great experience. This is why we at Hillcrest Sports always have you try on the boot first and if it’s not comfortable, we’ll try other sizes and models until we find you a perfect match. Everyone has different feet sizes and shapes as well as skill levels when it comes to skiing and all should be taken into consideration when selecting a boot.
+                                </p>
+                                <h2>
+                                    Rental Ski Poles
+                                </h2>
+                                <p>
+                                    Your ski poles help you balance and time your turns. Whether you’ve forgotten, misplaced, or broke your own ski poles, we at Hillcrest provide adult and children’s ski poles for rent.
+                                </p>
+                                <p>*Youth pricing is for skis 140cm or shorter, and for size 6 boot or under.</p>
+                            </div>                     
+                        </div>                        
+                        <div class='side-b-body' id='snowboard-body'>
+                            <div class='rental-catagory-main'>
+                                <div class='rentals-body-top'>
+                                    <h1 class='rentals-title-2'>
+                                        Snowboard Rentals
+                                    </h1>
+                                </div>
+                            </div>
+                            <div class='rentals-body-middle'>
+                                <p>
+                                    Hillcrest Ski & Sports has everything you need for your next snowboarding adventure in the Portland area! Our snowboard packages include men’s snowboards, women’s snowboards, and kid’s snowboards complete with boots and bindings. Have your own snowboard and just need boots? We also rent out single equipment including men’s snowboard boots, women’s snowboard boots, and kid’s snowboard boots. If you’re new to the sport, we’ll help make sure you’re properly fitted to your boots and snowboard. We also offer demonstration snowboard packages. We rent out our equipment on a first-come-first-serve basis and once you receive your snowboard equipment, you’ll have it for a full 24 hours, however, longer rentals are available.
+                                </p>
+                            </div>
+                            <div class='rentals-btns'>
+                                <div class='rentals-btns-a'>
+                                    <p onclick='adultSnowboardClick()'>Adult</p>
+                                </div>
+                                <div class='rentals-btns-a'>
+                                    <p onclick='youthSnowboardClick()'>Youth</p>
+                                </div>
+                            </div>
+                            <div class='rentals-prices'>
+                                <div class='rentals-price-catagory' id='adult-snowboard-prices'>
+                                    <h2>Adult</br>Snowboard</br>Prices</h2>
+                                    <ul>
+                                        <li class='red'>1 Day</li>
+                                        <li class='white'>1 Day</li>
+                                        <li>2 Day</li>
+                                        <li class='white'>3 Day</li>
+                                        <li>1 Week</li>
+                                        <li class='white'>2 Week</li>
+                                        <li>4 Week</li>
+                                        <li class='white'>6 Week</li>
+                                        <li>8 Week</li>
+                                        <li class='white'>Full Season</li>
+                                    </ul>
+                                    <ul><strong>Package</strong>
+                                        <li class='white'>$42</li>
+                                        <li>$62</li>
+                                        <li class='white'>$78</li>
+                                        <li>$92</li>
+                                        <li class='white'>$108</li>
+                                        <li>$135</li>
+                                        <li class='white'>$169</li>
+                                        <li>$199</li>
+                                        <li class='white'>$245</li>
+                                    </ul>
+                                    <ul><strong>Board Only</strong>
+                                        <li class='white'>$30</li>
+                                        <li>$40</li>
+                                        <li class='white'>$49</li>
+                                        <li>$65</li>
+                                        <li class='white'>$85</li>
+                                        <li>$99</li>
+                                        <li class='white'>$125</li>
+                                        <li>$137</li>
+                                        <li class='white'>$155</li>
+                                    </ul>
+                                    <ul><strong>Boots Only</strong>
+                                        <li class='white'>$22</li>
+                                        <li>$28</li>
+                                        <li class='white'>$34</li>
+                                        <li>$49</li>
+                                        <li class='white'>$60</li>
+                                        <li>$79</li>
+                                        <li class='white'>$93</li>
+                                        <li class='red'>$199</li>
+                                        <li class='white'>$115</li>
+                                    </ul>
+                                </div>
+                                <div class='rentals-price-catagory' id='youth-snowboard-prices'>
+                                    <h2>Youth</br>Snowboard</br>Prices</h2>
+                                    <ul><strong></strong>
+                                        <li class='red'>1 Day</li>
+                                        <li class='white'>1 Day</li>
+                                        <li>2 Day</li>
+                                        <li class='white'>3 Day</li>
+                                        <li>1 Week</li>
+                                        <li class='white'>2 Week</li>
+                                        <li>3 Week</li>
+                                        <li class='white'>4 Week</li>
+                                        <li>6 Week</li>
+                                        <li class='white'>7 Week</li>
+                                        <li>8 Week</li>
+                                        <li class='white'>Full Season</li>
+                                    </ul>
+                                    <ul>
+                                        <li><strong>Package</strong></li>
+                                        <li class='white'>$30</li>
+                                        <li>$40</li>
+                                        <li class='white'>$52</li>
+                                        <li>$67</li>
+                                        <li class='white'>$75</li>
+                                        <li class='red'>$135</li>
+                                        <li class='white'>$95</li>
+                                        <li>$115</li>
+                                        <li class='red'>$245</li>
+                                        <li>$145</li>
+                                        <li class='white'>$189</li>
+                                    </ul>
+                                    <ul>
+                                        <li><strong>Board Only</strong></li>
+                                        <li class='white'>$18</li>
+                                        <li>$20</li>
+                                        <li class='white'>$26</li>
+                                        <li>$32</li>
+                                        <li class='white'>$43</li>
+                                        <li>$54</li>
+                                        <li class='white'>$65</li>
+                                        <li>$85</li>
+                                        <li class='white'>$95</li>
+                                        <li>$107</li>
+                                        <li class='white'>$135</li>
+                                    </ul>
+                                    <ul><strong>Boots Only</strong>
+                                        <li class='white'>$15</li>
+                                        <li>$17</li>
+                                        <li class='white'>$20</li>
+                                        <li>$25</li>
+                                        <li class='white'>$35</li>
+                                        <li>$35</li>
+                                        <li class='white'>$45</li>
+                                        <li>$55</li>
+                                        <li class='red'>$199</li>
+                                        <li class='red'>$199</li>
+                                        <li class='white'>$85</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class='rentals-body-bottom'>
+                                <h2>
+                                    Snowboard Package Rentals
+                                </h2>
+                                <p>
+                                    Different boards are designed for different skill levels. And we at Hillcrest cater to them all. We provide snowboards for beginners, intermediate, advanced, and junior boarders. Keep in mind if you’re only doing a snowboard rental, you’ll want to bring your boots in at the time of pick-up so they can be properly fitted. If you’re getting the snowboard rental package, the fitting is already included.
+                                </p>
+                                <h2>
+                                    Snow Gear For Rent
+                                </h2>
+                                <p>
+                                    Be out on the slopes for as long as you want with our snowboard boot rental. We provide high-quality waterproof boots in several different brands and models to cater to everyone’s shape, size, and skill level. We want you to be comfortable during your snowboarding adventure, which is why we not only fit the boots to you, but to your snowboard as well.
+                                </p>
+                                <p>*Youth pricing is for snowboards 140cm or shorter, and for size 6 boot or under.</p>
+                            </div>               
+                        </div>
+                        <div class='side-b-body' id='snowshoe-body'>
+                            <div class='rental-catagory-main'>
+                                <div class='rentals-body-top'>
+                                    <h1 class='rentals-title-2'>
+                                        Snowshoe Rentals
+                                    </h1>
+                                </div>
+                            </div>
+                            <div class='rentals-body-middle'>
+                                <p>
+                                    Walk along the snowy terrain this winter and take in the beautiful views with Hillscrest Ski & Sports’ snowshoe rentals. At Hillcrest, we enjoy sharing our love of the outdoors and we make it easier for you to so as well. With our snowshoe rental package, you get the snowshoes, boots, and poles. You also have the option to rent them out separately. And as with all of our rentals, you get your items for 24 hours
+                                </p>
+                                <!-- <div class='rentals-btns-d'>
+                                    <p class='rental-button-right' onclick='snowshoeClick()'>Snowshoe</p>
+                                </div> -->
+                            </div>
+                            <!-- <div class='rentals-btns'>
+                                <div class='rentals-btns-c'>
+                                    <p>Clothing</p>
+                                </div>
+                            </div> -->
+                            <div class='rentals-prices'>
+                                <div class='rentals-price-catagory' >
+                                    <h2>Snowshoe</br>Prices</h2>
+                                    <ul>
+                                        <li class='red'>1 Day</li>
+                                        <li class='white'>1 Day</li>
+                                        <li>2 Day</li>
+                                        <li class='white'>3 Day</li>
+                                        <li>1 Week</li>
+                                        <li class='white'>2 Week</li>
+                                        <li>4 Week</li>
+                                    </ul>
+                                    <ul>
+                                        <li>Package</li>
+                                        <li class='white'>$29</li>
+                                        <li>$34</li>
+                                        <li class='white'>$40</li>
+                                        <li>$48</li>
+                                        <li class='white'>$58</li>
+                                        <li>$78</li>
+                                    </ul>
+                                    <ul>
+                                        <li>Boots</li>
+                                        <li class='white'>$15</li>
+                                        <li>$27</li>
+                                        <li class='white'>$35</li>
+                                        <li>$35</li>
+                                        <li class='white'>$45</li>
+                                        <li>$55</li>
+                                    </ul>
+                                    <ul>
+                                        <li>Shoes Only</li>
+                                        <li class='white'>$21</li>
+                                        <li>$28</li>
+                                        <li class='white'>$35</li>
+                                        <li>$35</li>
+                                        <li class='white'>$49</li>
+                                        <li>$65</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='side-b-body' id='kayak-body'>
+                            <div class='rental-catagory-main'>
+                                <div class='rentals-body-top'>
+                                    <h1 class='rentals-title'>
+                                        Kayak Rentals
+                                    </h1>
+                                </div>
+                            </div>
+                            <div class='rentals-body-middle'>
+                                <p>
+                                    Kayaking is a watersport that allows you to enjoy nature from a different perspective. It can be a calm and relaxing experience set on a mellow lake or a fun and exciting adventure on the rapids of your local river. You decide. The possibilities for kayaking are endless. If you’re thinking about kayaking, Hillcrest Sports offers daily and seasonal kayak rentals. We carry a full range of kayaks including single kayaks and tandem kayaks-- so you can explore alone or with a friend! Our kayak rentals start at the low price of $ 40 and come with everything you need to have a safe kayaking experience including your paddles and your personal flotation device (PFD). We also offer recreational passes in-store.
+                                </p>
+                            </div>
+                            <div class='rentals-prices'>
+                                <div class='rentals-price-catagory'>
+                                    <h2>Kayak Prices</h2>
+                                    <ul>
+                                        <li class='white'>1 Day</li>
+                                        <li>3 Day</li>
+                                        <li class='white'>1 Week</li>
+                                    </ul>
+                                    <ul>
+                                        <li class='white'>$40</li>
+                                        <li>$90</li>
+                                        <li class='white'>$149</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class='rentals-body-bottom'>
+                                <h2>
+                                    Where to Kayak
+                                </h2>
+                                <p>
+                                    There are several popular kayaking spots in the Portland OR and Vancouver WA area. Whether you want to stay close to home and kayak on Sauvie Island or Vancouver Lake or venture out toward the mountains and try Trillium Lake and Frog Lake, we will help you find an ideal kayaking spot catered to your skill level. Remember recreation passes can be purchased at our store as well, so pick up your pass and head to one of the many popular kayaking destinations our beautiful area has to offer.
+                                </p>
+                                <h2>
+                                    Transport Kayaks
+                                </h2>
+                                <p>
+                                    If you’re thinking about renting a kayak, you’ll want to consider how you’re going to transport it. There are a variety of ways to safely transport a kayak. Kayaks can be tied down to your vehicle with cam straps and water-resistant rope. You can also invest in a roof rack or smaller trailer to making transporting your kayak effortless.
+                                </p>
+                            </div>
+                        </div>
+                        <div class='side-b-body' id='paddleboard-body'>
+                            <div class='rental-catagory-main'>
+                                <div class='rentals-body-top'>
+                                    <h1 class='rentals-title'>
+                                        Paddleboard Rentals
+                                    </h1>
+                                </div>
+                            </div>
+                            <div class='rentals-body-middle'>
+                                <p>
+                                    Stand up paddle boarding has become quite popular recently in the world of watersports. Stand up paddle boarding (SUP) allows you explore the water without having to swim in it. It’s quite like surfing only you stand still and move yourself around using a paddle.
+                                </p>
+                            </div>
+                            <div class='rentals-prices'>
+                                <div class='rentals-price-catagory'>
+                                    <h2>Paddleboard</br>Prices</h2>
+                                    <ul>
+                                        <li class='white'>1 Day</li>
+                                        <li>3 Day</li>
+                                        <li class='white'>1 Week</li>
+                                    </ul>
+                                    <ul>
+                                        <li class='white'>$40</li>
+                                        <li>$90</li>
+                                        <li class='white'>$149</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class='rentals-body-bottom'>
+                                <h2>
+                                    Paddle Board Rental
+                                </h2>
+                                <p>
+                                    If you’re interested in paddle boarding at one of our local waterways, Hillcrest Sports provides stand up paddle board rentals. Our rentals are only $40 for the day. You’ll receive the paddle board (either inflatable or hardboard) a paddle, and your personal floatation device (FPD) all for 24 hours. If you need the equipment for more than 24 hours, we also provide longer rentals.
+                                </p>
+                                <h2>
+                                    Where to Paddle Board
+                                </h2>
+                                <p>
+                                    Here in the Portland OR and Vancouver WA area, there are several popular places to go paddle boarding. Take in the breathtaking views of Mt. Hood at Trillium Lake located in the Mt. Hood National Forest or stay closer to home and head out to Vancouver Lake -- which is a great spot for beginners. Most places require a day use fee, but to make it convenient, we sell recreational passes in-store. So when you stop by to pick up your rental, you can pick up your pass at the same time!
+                                </p>
+                                <h2>
+                                    Transporting Your Paddle Board
+                                </h2>
+                                <p>
+                                    One thing to keep in mind with your paddle board rental is how you’ll be transporting it. You can invest in a rack to fit in the back of your truck or car or invest in a small trailer that’s capable of transporting several paddle boards at one time. You can also tie it down by using straps and the crossbars installed on the roof of your vehicle.
+                                </p>
+                                <h2>
+                                    Reserve Your Paddle Board
+                                </h2>
+                                <p>
+                                    Once you’re ready to give stand up paddle boarding a try, contact Hillcrest Sports for your paddle board rental. We’ll teach you the basics and then have you on your way.
+                                </p>
+                            </div>
+                        </div>
+                        <div class='side-b-body' id='wake-sports-body'>
+                            <div class='rental-catagory-main'>
+                                <div class='rentals-body-top'>
+                                    <h1 class='rentals-title'>
+                                        Wake Sports Rentals
+                                    </h1>
+                                </div>
+                            </div>
+                            <div class='rentals-body-middle'>
+                                <p>
+                                    Wakeboards and Wakesurf Boards, while previously belived to be one singular type of object. It had been revieled by Ryan that they are in fact two seperate things. One is a different shape than the other. Wakeboarding is a water sport in which the rider, standing on a wakeboard (a short board with foot bindings), is towed behind a motorboat across its wake and especially up off the crest in order to perform aerial maneuvers. Wakesurfing is a water sport in which a rider trails behind a boat, riding the boat's wake without being directly pulled by the boat. 
+                                </p>
+                            </div>
+                            <div class='rentals-prices'>
+                                <div class='rentals-price-catagory'>
+                                    <h2>Wake Sport</br>Prices</h2>
+                                    <ul>
+                                        <li class='red'>1 Day</li>
+                                        <li class='white'>1 Day</li>
+                                        <li>2 Day</li>
+                                        <li class='white'>3 Day</li>
+                                        <li>1 Week</li>
+                                        <li class='white'>2 Week</li>
+                                    </ul>
+                                    <ul> Wakeboard
+                                        <li class='white'>$35</li>
+                                        <li>$45</li>
+                                        <li class='white'>$59</li>
+                                        <li>$79</li>
+                                        <li class='white'>$109</li>
+                                    </ul>
+                                    <ul>
+                                        <li>Demo Board</li>
+                                        <li class='red'>$35</li>
+                                        <li>$69</li>
+                                        <li class='white'>$89</li>
+                                        <li>$139</li>
+                                        <li class='white'>$189</li>
+                                    </ul>
+                                    <ul>
+                                        <li>Wakesurf</li>
+                                        <li class='white'>$35</li>
+                                        <li class='red'>$45</li>
+                                        <li class='white'>$59</li>
+                                        <li class='red'>$79</li>
+                                        <li class='red'>$109</li>
+                                    </ul>
+
+                                </div>
+                            </div>
+                            <div class='rentals-body-bottom'>
+                                <h2>
+                                    Where to Wakesurf
+                                </h2>
+                                <p>
+                                    Here in the Portland OR and Vancouver WA area, there are several popular places to go wakeboarding. Take in the breathtaking views of Mt. Hood at Trillium Lake located in the Mt. Hood National Forest or stay closer to home and head out to Vancouver Lake -- which is a great spot for beginners. Most places require a day use fee, but to make it convenient, we sell recreational passes in-store. So when you stop by to pick up your rental, you can pick up your pass at the same time!
+                                </p>
+                                <h2>
+                                    Reserve Your Wakeboard
+                                </h2>
+                                <p>
+                                    Once you’re ready to give wakeboarding or wakesurfing a try, contact Hillcrest Sports for your paddle board rental. We’ll teach you the basics and then have you on your way.
+                                </p>
+                            </div>
+                        </div>
+                        <div class='side-b-body' id='mountaineering-body'>
+                            <div class='rental-catagory-main'>
+                                <div class='rentals-body-top'>
+                                    <h1 class='rentals-title'>
+                                        Mountaineering Rentals
+                                    </h1>
+                                </div>
+                            </div>
+                            <div class='rentals-body-middle-ski'>
+                                <p>
+                                    No matter how much experience you have, you will want to bring mountaineering gear to your trip. Boots: Not only do you want boots that fit comfortably, but you also want a pair with good traction that will keep you from slipping on the ice. You’ll need the boot to be tougher, more supportive and have a stiffer sole to accommodate crampons. We have a brand new fleet of both men’s and women’s La Sportiva Trango Tower Boots. The Trango Tower is the perfect 3-season alpine boot for tackling any of our local Cascade giants such as Mt Hood or Mt Adams.
+                                </p>
+                            </div>
+                            <div class='rentals-prices'>
+                                <div class='rentals-price-catagory-mount'>
+                                    <h2>Mountaineering</br>Prices</h2>
+                                    <ul>
+                                        <li class='red'>1 Day</li>
+                                        <li class='white'>1 Day</li>
+                                        <li>2 Day</li>
+                                        <li class='white'>3 Day</li>
+                                        <li>1 Week</li>
+                                    </ul>
+                                    <ul>
+                                        <li>Package</li>
+                                        <li class='white'>$35</li>
+                                        <li>$35</li>
+                                        <li class='white'>$50</li>
+                                        <li>$80</li>
+                                    </ul>
+                                    <ul>
+                                        <li>Boots</li>
+                                        <li class='white'>$18</li>
+                                        <li>$18</li>
+                                        <li class='white'>$25</li>
+                                        <li>$36</li>
+                                    </ul>
+                                    <ul>
+                                        <li>Helmet</li>
+                                        <li class='white'>$8</li>
+                                        <li>$8</li>
+                                        <li class='white'>$13</li>
+                                        <li>$26</li>
+                                    </ul>
+                                    <ul>
+                                        <li>Crampon</li>
+                                        <li class='white'>$10</li>
+                                        <li>$10</li>
+                                        <li class='white'>$15</li>
+                                        <li>$22</li>
+                                    </ul>
+                                    <ul>
+                                        <li>Ice Axe</li>
+                                        <li class='white'>$8</li>
+                                        <li>$8</li>
+                                        <li class='white'>$13</li>
+                                        <li>$18</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class='rentals-body-bottom-ski'>
+                                <h2>
+                                    Mountaineering Package Rentals
+                                </h2>
+                                <p>
+                                    <span class='rentals-p-bolden'>Crampons:</span>
+                                    These work with your boots and have sharp metal spikes on the bottom that help you sink your feet into the ice. Crampons are built in a variety of materials dependent upon the activity. Hillcrest rents semi-rigid, steel crampons in both universal straps and semi automatic straps that will fit a wide range of sole types. Hillcrest has a brand new fleet of the CAMP Stalker Univeral and CAMP Stalker Semi-Auto.
+                                </p>
+                                <p>
+                                    <span class='rentals-p-bolden'>Ice Axe:</span>
+                                    Use an ice axe to break through the ice and keep your balance as well as to self arrest during a sudden fall. Ice axes are sized based on intended activity and height of user. Hillcrest currently stocks the CAMP Neve in a wide variety of sizes.
+                                </p>
+                                <p>
+                                    <span class='rentals-p-bolden'>Helmet:</span>
+                                    Protect yourself against loose, falling rocks and ice with a helmet. All Mountaineering helmets are certified for overhead protection unlike most ski and snowboard helmets which are certified for side-protection. We offer the CAMP Titan helmets. Though you can buy mountaineering equipment, you can save some money when you rent gear instead. Hillcrest has all the mountaineering equipment you need that you can rent for 48 hours. To reserve the equipment, stop by our store!
+                                </p>
+                            </div>
+                        </div>
+                        <div class='side-b-body' id='outerwear-body'>
+                            <div class='rental-catagory-main'>
+                                <div class='rentals-body-top'>
+                                    <h1 class='rentals-title'>
+                                        Outerwear Rentals
+                                    </h1>
+                                </div>
+                            </div>
+                            <div class='rentals-body-middle'>
+                                Hillcrest sports offers everything that you could need to enjoy the regions mountains to the fullest, including outerwear rentals. Our house brand for rentals is 686 and boasts 10,000mm waterproof/breathability rating. Although we do not rent gloves or goggles, we do have those available for purchase.
+                            </div>
+                            <div class='rentals-prices'>
+                                    <div class='rentals-price-catagory'>
+                                        <h2>Oterwear Prices</h2>
+                                        <ul>
+                                            <li class='red'>1 Day</li>
+                                            <li class='white'>1 Day</li>
+                                            <li>2 Day</li>
+                                            <li class='white'>3 Day</li>
+                                        </ul>
+                                        <ul>
+                                            <li>Package</li>
+                                            <li class='white'>$29</li>
+                                            <li>$90</li>
+                                            <li class='white'>$149</li>
+                                        </ul>
+                                        <ul>
+                                            <li>Pants</li>
+                                            <li class='white'>$16</li>
+                                            <li>$25</li>
+                                            <li class='white'>$33</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <style>
+                .general-info {
+                    padding: 10px;
+                    background-color: rgba(228,228,228,.5);
+                    z-index: 2;
+                    margin: 0 auto;
+                }
+
+                .info-top {
+                    background-color: rgba(255,255,255,.75);
+                    padding: 10px;
+                    text-align: center;
+                    margin-bottom: 20px;
+                }
+
+                .info-body {
+                    display: grid;
+                    grid-gap: 0px;
+                    grid-template-columns: auto auto;
+                }
+
+                .policy {
+                    width: 90%;
+                    margin: 0 auto;
+                    padding: 0 4px;
+                    border-radius: 50%;
+                }
+
+                .policy-title {
+                    font-size: 22px;
+                    font-weight: 600;
+                    color: white;
+                    background-color: #4C86A8;
+                    padding: 2px 15px;
+                    border-radius: 10px;
+                }
+                
+                .policy p { 
+                    background-color: white;
+                    padding: 5px;
+                }
+
+                .policy-p {
+                    border-radius: 10px;
+                }
+
+                .para {
+                    padding-left: 8px;
+                }
+
+                @media only screen and (min-width: 1044px) {
+                /* For laptops: */
+                .general-info {
+                    max-width: 960px; 
+                }   
+            }
+
+                @media only screen and (max-width: 768px) {
+                /* For mobile phones: */
+                .info-body {
+                    grid-template-columns: auto;
+                }
+            }
+           
+            </style>          
+            <div class='general-info'>
+                <div class='info-top'>
+                  <h2>OUTFIT YOURSELF FOR THE DAY OR THE WHOLE FAMILY FOR THE ENTIRE SEASON!</h2>
+                  <!-- <p class='policy-p'>Hillcrest is conveniently located at the corner of Powell and Burnside. Across Hwy 26 from the Gresham Fred Meyer. We offer 24 hour rentals, so no rush to get off the slopes and back to town before closing time. Recreational passes are available for purchase in-store.</p> -->
+                </div>  
+                <div class='info-body'>
+                  <div class='policy'>
+                    <p class='policy-p'><span class='policy-title'>Location </span><span class='para'>Hillcrest is conveniently located on the edge Gresham at the beginning of Highway 26. Easy pick-up and drop-off.</span></p>
+                  </div>  
+                  <div class='policy'>
+                    <p class='policy-p'><span class='policy-title'>Daily to Seasonal </span><span class='para'>Our rentals range from 24 hours to full season long. We can accomidate your family's needs, whatever they might be.</span></p>
+                  </div>
+                  <div class='policy'>
+                    <p class='policy-p'><span class='policy-title'>Demos </span><span class='para'>Hillcrest has a robust snowboard and ski demo fleet available for you to try before you buy. This can be helpful if you are trying to narrow down what you are looking for.</span></p>
+                  </div>
+                  
+                  <div class='policy'>
+                    <p class='policy-p'><span class='policy-title'>Better than the Mountain?</span><span class='para'>Our rental packages are less expensive than all the local resorts. Skip the long resort rental lines and pay a lower price.</span></p>
+                  </div>
+                </div>
+            </div>
+            </div>
+        </div>
+
+        {{#if page.feed}}
+        <ul><strong></strong>
+            {{#each page.feed}}
+            <li>
+                <h6><a href="{{url}}" target="_blank">{{title}}</a></h6>
+                <p>{{content}}</p>
+            </li>
+            {{/each}}
+        </ul>
+        {{/if}}
+    </main>
+
+    </main>
+
+    <!-- {{#if theme_settings.enable_side_cart}}
+        {{> components/f/b2b/side-cart enable_sticky=true}}
+    {{/if}} -->
+</div>
+
+
+{{/partial}}
+
+{{> layout/base}}

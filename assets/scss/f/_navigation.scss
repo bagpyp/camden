@@ -1,0 +1,202 @@
+// Sticky setup
+// -----------------------------------------------------------------------------
+
+.navPages-container.sticky.fixed {
+    background-color: stencilColor("color-white");
+    bottom: auto;
+    position: fixed;
+    top: 0;
+    z-index: zIndex("high");
+    -webkit-transform: translateZ(0);
+
+    .navPages {
+        @include breakpoint("medium") {
+            max-width: 70%;
+        }
+
+        @include breakpoint("large") {
+            max-width: 100%;
+        }
+    }
+}
+
+.header-logo.sticky.fixed {
+    bottom: auto;
+    margin: 0;
+    position: fixed;
+    top: 0;
+    z-index: zIndex("higher");
+    -webkit-transform: translateZ(0);
+}
+
+.navUser.sticky.fixed {
+    bottom: auto;
+    margin: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: auto;
+    z-index: zIndex("highest");
+    -webkit-transform: translateZ(0);
+
+    .navUser-section {
+        display: none;
+
+        .navUser-item {
+            display: none;
+        }
+
+        &.navUser-section--alt {
+            display: block;
+
+            .navUser-item--cart {
+                display: block;
+
+                .dropdown-menu {
+                    width: remCalc(320);
+                }
+            }
+        }
+    }
+}
+// Navigation positioning
+// -----------------------------------------------------------------------------
+
+.navPages-item {
+    @include breakpoint("medium") {
+        display: inline-block;
+        float: none;
+    }
+}
+
+.expanded,
+.expanded--enclosed,
+.marketplace--enclosed,
+.simple,
+.simple--enclosed {
+    @include breakpoint("medium") {
+        .navPages-item {
+            position: relative;
+        }
+
+        .has-subMenu.is-root + .navPage-subMenu-horizontal {
+            left: 0;
+            top: 100%;
+        }
+    }
+}
+
+.expanded,
+.expanded--enclosed {
+    .navPage-subMenu-list {
+        @include breakpoint("medium") {
+            max-height: 50vh;
+            overflow-y: auto;
+            position: static;
+        }
+    }
+}
+
+.navPage-subMenu-horizontal.is-open {
+    @include breakpoint("medium") {
+        min-height: 100%;
+        margin-left: 100%;
+        width: 100%;
+        z-index: zIndex("low");
+    }
+}
+
+.navPage-subMenu-horizontal.marketplace-popout.is-open {
+    @include breakpoint("medium") {
+        width: 33.33333vw;
+    }
+}
+
+.navBar-section.account-navigation {
+    .navBar-action {
+        color: stencilColor("color-textLink");
+        font-weight: $fontWeight-semibold;
+        text-decoration: underline;
+
+        &:hover {
+            color: stencilColor("color-textBase");
+        }
+    }
+}
+
+.navBar--sub {
+    margin-bottom: spacing("single");
+    text-align: left;
+
+    .navBar-section {
+        .navBar-item {
+            &:first-of-type {
+                margin-left: 0;
+            }
+        }
+    }
+}
+
+.account-navigation {
+    .navBar-item {
+        &.is-active {
+            border-bottom: 0;
+        }
+    }
+}
+// Navigation styling
+// -----------------------------------------------------------------------------
+
+.expanded-subMenu {
+    @include breakpoint("medium") {
+        border-bottom: 1px solid #ccc;
+        border-top: 1px solid #ccc;
+
+        .navPage-subMenu-action {
+            font-weight: normal;
+            padding-left: spacing("base")*2;
+        }
+    }
+}
+
+.dropdown-menu {
+    outline: none;
+}
+
+.navPages-action {
+    &:focus {
+        color: stencilColor("header-bottom-nav-dropdown-color");
+
+        svg {
+            fill: stencilColor("header-bottom-nav-dropdown-color");
+            stroke: stencilColor("header-bottom-nav-dropdown-color");
+        }
+    }
+
+    &.is-root.is-open svg {
+        fill: stencilColor("header-bottom-nav-dropdown-color");
+        stroke: stencilColor("header-bottom-nav-dropdown-color");
+    }
+}
+// Navigation z-index fix
+// -----------------------------------------------------------------------------
+
+.navPages-container.is-open {
+    z-index: zIndex("low");
+}
+// Contextual navigation links
+// -----------------------------------------------------------------------------
+
+.navPages-contextual > .navPages-action {
+    @include breakpoint("medium") {
+        font-weight: fontWeight("normal");
+    }
+}
+
+// DLN
+.navPages-action {
+    margin-top: 0.8vmin;
+    margin-bottom: 0.8vmin;
+    padding-top: 0.8vmin;
+    padding-bottom: 0.8vmin;
+}

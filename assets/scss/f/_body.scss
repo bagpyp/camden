@@ -1,0 +1,37 @@
+body {
+    display: flex;
+    flex-flow: column;
+    min-height: 100vh;
+}
+
+.body {
+  margin-bottom: 0;
+}
+
+.page {
+    margin: 0;
+
+    @include breakpoint("large") {
+        width: 100%;
+    }
+
+    &.page--full-width {
+        width: 100%;
+    }
+
+    .page-content {
+        padding: 0;
+
+        h1 {
+            margin-top: 0;
+        }
+    }
+}
+
+.page-heading {
+  text-align: left;
+
+  &.page-heading--center {
+    text-align: center;
+  }
+}

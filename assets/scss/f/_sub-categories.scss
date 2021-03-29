@@ -1,0 +1,15 @@
+.subCategory {
+    margin-bottom: spacing("single");
+    
+    &-name--center {
+        text-align: center;
+    }
+
+    &-image {
+        text-align: center;
+    }
+
+    &-name {
+        padding: spacing("half");
+    }
+}

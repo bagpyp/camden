@@ -1,0 +1,11 @@
+{
+  "normalStoreUrl": "https://store-gaywsgumtw.mybigcommerce.com/",
+  "accessToken": "9ksoui1m1rfkhvdm40zxv4ov605o1cc",
+  "port": "3000",
+  "customLayouts": {
+    "brand": {},
+    "category": {},
+    "page": {},
+    "product": {}
+  }
+}

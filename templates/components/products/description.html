@@ -1,0 +1,91 @@
+{{#if product.description}}
+    <h2 class="productView-title">{{lang 'products.description'}}</h2>
+    {{{region name="product_below_description_title"}}}
+    <div {{#if settings.data_tag_enabled}} data-event-type="product" {{/if}}>
+        {{{product.description}}}
+        {{{snippet 'product_description'}}}
+    </div>
+    {{{region name="product_below_description_body"}}}
+{{/if}}
+
+{{#any product.brand product.custom_fields}}
+<h2 class="productView-title">{{#if theme_settings.rename_extra_info_field}}{{theme_settings.rename_extra_info_field}}{{else}}{{lang 'products.extra_info'}}{{/if}}</h2>
+{{/any}}
+
+{{{region name="product_above_info_table"}}}
+<div class="productView-table">
+{{#if product.brand}}
+    <div class="productView-table-row">
+        <div class="productView-table-header">{{lang 'brand.singular_label'}}</div>
+        <div class="productView-table-data" data-product-weight>{{product.brand.name}}</div>
+    </div>
+{{/if}}
+{{#all product.width product.height product.depth theme_settings.show_product_dimensions}}
+    <div class="productView-table-row">
+        <div class="productView-table-header">{{lang 'products.width'}}</div>
+        <div class="productView-table-data" data-product-width>
+            {{product.width}}
+            {{#if settings.measurements.length '==' 'Centimeters'}}
+            ({{lang 'products.measurement.metric'}})
+            {{else}}
+            ({{lang 'products.measurement.imperial'}})
+            {{/if}}
+        </div>
+    </div>
+    <div class="productView-table-row">
+        <div class="productView-table-header">{{lang 'products.height'}}</div>
+        <div class="productView-table-data" data-product-height>
+            {{product.height}}
+            {{#if settings.measurements.length '==' 'Centimeters'}}
+            ({{lang 'products.measurement.metric'}})
+            {{else}}
+            ({{lang 'products.measurement.imperial'}})
+            {{/if}}
+        </div>
+    </div>
+    <div class="productView-table-row">
+        <div class="productView-table-header">{{lang 'products.depth'}}</div>
+        <div class="productView-table-data"data-product-depth>
+            {{product.depth}}
+            {{#if settings.measurements.length '==' 'Centimeters'}}
+            ({{lang 'products.measurement.metric'}})
+            {{else}}
+            ({{lang 'products.measurement.imperial'}})
+            {{/if}}
+        </div>
+    </div>
+{{/all}}
+{{#all product.weight theme_settings.show_product_weight}}
+    <div class="productView-table-row">
+        <div class="productView-table-header">{{lang 'products.weight'}}</div>
+        <div class="productView-table-data" data-product-weight>{{product.weight}}</div>
+    </div>
+{{/all}}
+{{#each product.custom_fields}}
+    <!-- Adding this if block to hide the eBay Category ID. -Robbbie -->
+    {{#if (if name '!=' 'eBay Category ID')}}
+        {{#or (if name '===' 'Blog Post Description') (if name '===' 'Promotion Label') (if name '===' 'GridTag') (if name '===' 'Related Content') (if name '===' 'Short Description')}}
+        {{else}}
+        <div class="productView-table-row">
+            <div class="productView-table-header">{{name}}:</div>
+            <div class="productView-table-data">{{{value}}}</div>
+        </div>
+        {{/or}}
+    {{/if}}
+{{/each}}
+</div>
+{{{region name="product_below_info_table"}}}
+
+{{#if product.warranty}}
+    <h2 class="productView-title">{{#if theme_settings.rename_warranty_field}}{{theme_settings.rename_warranty_field}}{{else}}{{lang 'products.warranty'}}{{/if}}</h2>
+    <p>{{{product.warranty}}}</p>
+{{/if}}
+{{{region name="product_below_warranty"}}}
+
+{{#unless is_ajax }}
+    {{#if product.videos.list.length}}
+        <h2 class="productView-title">{{lang 'products.videos.header'}}</h2>
+        {{> components/products/videos product.videos}}
+    {{/if}}
+{{/unless}}
+{{{region name="product_below_videos"}}}

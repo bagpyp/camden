@@ -1,0 +1,421 @@
+        <!-- DYLAN -->
+        {{#partial "page"}}
+
+        {{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
+        <main class='page'>
+    
+            {{{region name="above_page_title"}}}
+            <h1 class="page-heading">Local Resort and Driving Conditions</h1>
+            {{{region name="below_page_title"}}}
+    
+            <style>
+                 .card-grid {
+                    display: grid;
+                    grid-template-columns: auto auto;
+                }
+    
+                .resort-card {
+                    border: 2px solid grey;
+                    border-radius: 15px;
+                    margin: 12px;
+                    padding: 10px;
+                    display: grid;
+                }
+    
+                .card-middle {
+                    display: grid;
+                    grid-template-columns: auto auto;
+                    background-color: rgba(242,242,242,.5);
+                    border-radius: 7.5px;
+                }
+    
+                .name-logo {
+                    height: 90%;
+                    margin: auto auto;
+                    border-radius: 7.5px;
+                }
+    
+                .card-left {
+                    border-radius: 7.5px;
+                }
+                
+                .name-logo h1 {
+                    text-align: center;
+                    margin-bottom: 0;
+                }
+    
+                .name-logo a img {
+                    width: 210px;
+                }
+    
+                .card-right {
+                    background-color: rgba(242,242,242,.5);
+                    font-weight: 600;
+                    padding-left: 10px;
+                    border-radius: 7.5px;
+                    margin: auto auto;
+                    font-size: calc(8px + 1vmin);
+                }
+    
+                .card-bottom {
+                    display: grid;
+                    grid-template-columns: auto auto;
+                    width: 100%;
+                    padding-top: 10px;
+                    text-align: center;
+                    font-weight: 600;
+                    font-size: 22px;
+                    text-shadow: .8px .7px 1.6px #f2f2f2;
+                }
+                
+                .conditions {
+                    height: 60px;
+                    padding: 10px;
+                    border-radius: 5px;
+                    width: 44%;
+                    min-width: 125px;
+                    border: 2px solid rgba(255, 255, 255, 1);
+                    background-color: rgba(255, 255, 255, 0.65);
+                    margin: 0 auto;
+                }
+    
+                .address {
+                    height: 60px;
+                    padding: 10px;
+                    border-radius: 5px;
+                    width: 44%;
+                    min-width: 125px;
+                    border: 2px solid rgba(255, 255, 255, 1);
+                    background-color: rgba(255, 255, 255, 0.65);
+                    margin: 0 auto;
+                }
+    
+                .conditions a {
+                    text-decoration: none;
+                }
+    
+                .address-link {
+                    text-decoration: none;
+                }
+    
+    
+                #timberline{
+                    background-image: url("{{cdn '/assets/img/hillcrest/resorts/timberline.jpg'}}");
+                    background-size: cover;
+                }
+    
+                #meadows{
+                    background-image: url("{{cdn '/assets/img/hillcrest/resorts/meadows.jpg'}}");
+                    background-size: cover;
+                }
+    
+                #skibowl{
+                    background-image: url("{{cdn '/assets/img/hillcrest/resorts/skibowl.jpg'}}");
+                    background-size: cover;
+                }
+    
+                #bachelor{
+                    background-image: url("{{cdn '/assets/img/hillcrest/resorts/bachelor.jpg'}}");
+                    background-size: cover;
+                }
+    
+                #hoodoo{
+                    background-image: url("{{cdn '/assets/img/hillcrest/resorts/Hoodoo.jpg'}}");
+                    background-size: cover;
+                }
+    
+                #summit{
+                    background-image: url("{{cdn '/assets/img/hillcrest/resorts/summit.jpg'}}");
+                    background-size: cover;
+                }
+    
+                #cooper{
+                    background-image: url("{{cdn '/assets/img/hillcrest/resorts/cooper.jpeg'}}");
+                    background-size: cover;
+                }
+    
+                #baker{
+                    background-image: url("{{cdn '/assets/img/hillcrest/resorts/baker.jpg'}}");
+                    background-size: cover;
+                }
+    
+                #crystal{
+                    background-image: url("{{cdn '/assets/img/hillcrest/resorts/crystal.jpg'}}");
+                    background-size: cover;
+                }
+    
+                @media only screen and (min-width: 1600px) {
+                    .card-grid {
+                    display: grid;
+                    grid-template-columns: auto auto auto;
+                    }
+                }
+    
+                @media only screen and (max-width: 1050px) {
+                .card-grid {
+                    display: grid;
+                    grid-template-columns: auto;
+                    }
+                }     
+    
+            </style>
+    
+            <div id='root'></div>
+            <div class='card-grid'>
+                <div class='resort-card' id='timberline'>
+                    <div class='card-middle'>
+                        <div class='card-left'>
+                            <div class='weather-boxes'>
+                            </div>
+                            <div class='name-logo'>
+                                <h1>Timberline</h1>
+                                <a href='https://www.timberlinelodge.com'>
+                                    <img src="{{cdn '/assets/img/hillcrest/resorts/timberline-logo.png'}}">
+                                </a> 
+                            </div>
+                        </div>
+                        <div class='card-right'>
+                            <p>With the land and historic lodge owned by the U.S. Forest Service, Timberline Lodge and Ski Area has been family-operated since May 1955. Just like many of our staff, we grew up skiing on Mt. Hood and generations of our families continue to come back to this special place: an experience we’re committed to sharing with our guests.</p>
+                        </div>
+                    </div>
+                    <div class='card-bottom'>
+                        <div class='conditions'>
+                            <a href='https://www.timberlinelodge.com/conditions'>Conditions</a>
+                        </div>
+                        <div class='address'>
+                            <a class='address-link' href='https://www.google.com/maps/place/Timberline+Lodge+and+Ski+Area/@45.3311281,-121.7131951,17z/data=!3m1!4b1!4m8!3m7!1s0x54be1eaaa37312a3:0x6738b4912b8ca4f2!5m2!4m1!1i2!8m2!3d45.3311307!4d-121.7110071'>
+                                <p>Directions</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class='resort-card' id='meadows'>
+                    <div class='card-middle'>
+                        <div class='card-left'>
+                            <div class='weather-boxes'>
+                            </div>
+                            <div class='name-logo'>
+                                <h1>Mt. Hood Meadows</h1>
+                                <a href='https://www.skihood.com/'>
+                                    <img src="{{cdn '/assets/img/hillcrest/resorts/meadows-logo.png'}}">
+                                </a> 
+                            </div>
+                        </div>
+                        <div class='card-right'>
+                            <p>Mt. Hood Meadows Ski Resort operates on a special use permit on the Mt. Hood National Forest, offering some of the most spectacular skiing and snowboarding in the Northwest. The resort is just 90 minutes away from Portland, and it delivers a big mountain experience you'd expect to travel much farther to enjoy. The resort sprawls across Mt. Hood's southeast flank, the sunny, wind-protected side of Mt. Hood. Meadows' playful terrain welcomes and challenges all levels of skiers and snowboarders.</p>
+                        </div>
+                    </div>
+                    <div class='card-bottom'>
+                        <div class='conditions'>
+                            <a href='https://www.skihood.com/the-mountain/conditions'>Conditions</a>
+                        </div>
+                        <div class='address'>
+                            <a class='address-link' href='https://www.google.com/maps/place/Mt+Hood+Meadows/@45.3318292,-121.667286,17z/data=!3m1!4b1!4m5!3m4!1s0x549509fc7b558e2d:0xf901251e42ec04f5!8m2!3d45.3318292!4d-121.6650973'>
+                                <p>Directions</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class='resort-card' id='skibowl'>
+                    <div class='card-middle'>
+                        <div class='card-left'>
+                            <div class='weather-boxes'>
+                            </div>
+                            <div class='name-logo'>
+                                <h1>Mt. Hood Skibowl</h1>
+                                <a href='http://www.skibowl.com/winter/'>
+                                    <img src="{{cdn '/assets/img/hillcrest/resorts/skibowl-logo.png'}}">
+                                </a> 
+                            </div>
+                        </div>
+                        <div class='card-right'>
+                            <p>Skibowl boasts the largest night skiing area in the country. With affordable ticket prices and the steepest terrain (accessible by lift) on Mt Hood. Its 960 snow covered acres are perfect for the whole family. Located in Government Camp, OR on Mt Hood.</p>
+                        </div>
+                    </div>
+                    <div class='card-bottom'>
+                        <div class='conditions'>
+                            <a href='http://www.skibowl.com/winter/mt-hood-weather-conditions'>Conditions</a>
+                        </div>
+                        <div class='address'>
+                            <a class='address-link' href='https://www.google.com/maps/place/Mt.+Hood+Skibowl/@45.2943342,-121.789626,14z/data=!3m1!4b1!4m5!3m4!1s0x54950a02e42e16a5:0xc931fca320228d69!8m2!3d45.294812!4d-121.7723448'>
+                                <p>Directions</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class='resort-card' id='bachelor'>
+                    <div class='card-middle'>
+                        <div class='card-left'>
+                            <div class='weather-boxes'>
+                            </div>
+                            <div class='name-logo'>
+                                <h1>Mt. Bachelor</h1>
+                                <a href='https://www.mtbachelor.com/'>
+                                    <img src="{{cdn '/assets/img/hillcrest/resorts/bachelor-logo.png'}}">
+                                </a> 
+                            </div>
+                        </div>
+                        <div class='card-right'>
+                            <p>Founded in 1957, Mt Bachelor Ski Resort boasts some of the best skiing/snowboarding int the Northwest. Any easy 30 minute drive from Bend, OR makes it a popular vacation destination. With 2 lodges, 11 lifts and access to the backside of the mountain via a lift to the peak, Mt Bachelor has something for everyone.</p>
+                        </div>
+                    </div>
+                    <div class='card-bottom'>
+                        <div class='conditions'>
+                            <a href='https://www.mtbachelor.com/conditions-report/'>Conditions</a>
+                        </div>
+                        <div class='address'>
+                            <a class='address-link' href='https://www.google.com/maps/place/Mt+Bachelor/@43.9796633,-121.701172,13.21z/data=!4m8!1m2!2m1!1smt+bachelor!3m4!1s0x54b8b9ae8ce30bd7:0x9a1e1f0cf4a846e5!8m2!3d44.0032955!4d-121.6787875'>
+                                <p>Directions</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class='resort-card' id='hoodoo'>
+                    <div class='card-middle'>
+                        <div class='card-left'>
+                            <div class='weather-boxes'>
+                            </div>
+                            <div class='name-logo'>
+                                <h1>Hoodoo</h1>
+                                <a href='https://www.skihoodoo.com/'>
+                                    <img src="{{cdn '/assets/img/hillcrest/resorts/hoodoo-logo.png'}}">
+                                </a> 
+                            </div>
+                        </div>
+                        <div class='card-right'>
+                            <p>Built in 1938, Hoodoo Ski Resort is located in the central Cascade Range of Oregon. Located near the summit of Santiam Pass on U.S. Route 20, the ski area operates on federal land through agreement with Willamette National Forest on Hoodoo Butte, a volcanic cinder cone.</p>
+                        </div>
+                    </div>
+                    <div class='card-bottom'>
+                        <div class='conditions'>
+                            <a href='http://www.santiampassskipatrol.org/wx/weather.htm'>Conditions</a>
+                        </div>
+                        <div class='address'>
+                            <a class='address-link' href='https://www.google.com/maps/place/Hoodoo+Ski+Area/@44.408755,-121.8735697,17z/data=!3m1!4b1!4m5!3m4!1s0x54bf374c3f8e7d9d:0x28cc775b14baa46b!8m2!3d44.408755!4d-121.871381'>
+                                <p>Directions<p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class='resort-card' id='summit'>
+                    <div class='card-middle'>
+                        <div class='card-left'>
+                            <div class='weather-boxes'>
+                            </div>
+                            <div class='name-logo'>
+                                <h1>Ski Summit Area</h1>
+                                <a href='http://www.summitskiarea.com/'>
+                                    <img src="{{cdn '/assets/img/hillcrest/resorts/summit-logo.png'}}">
+                                </a> 
+                            </div>
+                        </div>
+                        <div class='card-right'>
+                            <p>Our resort caters to families and novices. Many people learned to ski at Summit as children, and are now bringing their children and grandchildren here to learn. Come see us today and experience the joy of skiing, snowboarding, or tubing!</p>
+                        </div>
+                    </div>
+                    <div class='card-bottom'>
+                        <div class='conditions'>
+                            <a href='http://www.summitskiarea.com/conditions'>Conditions</a>
+                        </div>
+                        <div class='address'>
+                            <a class='address-link' href='https://www.google.com/maps/place/Summit+Ski+Area/@45.3029059,-121.748017,17z/data=!3m1!4b1!4m5!3m4!1s0x54be18da1ef0cb0b:0xd33b5913f4d2d6c3!8m2!3d45.3029059!4d-121.7458283'>
+                                <p>Directions</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class='resort-card' id='cooper'>
+                    <div class='card-middle'>
+                        <div class='card-left'>
+                            <div class='weather-boxes'>
+                            </div>
+                            <div class='name-logo'>
+                                <h1>Cooper Spur</h1>
+                                <a href='http://cooperspur.com/'>
+                                    <img src="{{cdn '/assets/img/hillcrest/resorts/cooper-logo.png'}}">
+                                </a> 
+                            </div>
+                        </div>
+                        <div class='card-right'>
+                            <p>Cooper Spur is a ski area located on northeast Mount Hood. The resort has one double chair ski lift serving ten runs, and a vertical drop of 350 ft. There are 6.5 kilometers of cross-country skiing trails. The resort encompasses 0.2 km² (50 acres) of terrain, and receives an average of 100 inches of snow per year. It has condos, log cabins, a restaurant, and a hotel located in its base area.</p>
+                        </div>
+                    </div>
+                    <div class='card-bottom'>
+                        <div class='conditions'>
+                            <a href='http://cooperspur.com/conditions/'>Conditions</a>
+                        </div>
+                        <div class='address'>
+                            <a class='address-link' href='https://www.google.com/maps/place/Cooper+Spur+Mountain+Resort/@45.425548,-121.5931707,17z/data=!3m1!4b1!4m5!3m4!1s0x54be0243a5ebfe1f:0xd5b7941756b8a8a5!8m2!3d45.425548!4d-121.590982'>
+                                <p>Directions</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class='resort-card' id='baker'>
+                    <div class='card-middle'>
+                        <div class='card-left'>
+                            <div class='weather-boxes'>
+                            </div>
+                            <div class='name-logo'>
+                                <h1>Mt. Baker</h1>
+                                <a href='http://www.mtbaker.us/'>
+                                    <img src="{{cdn '/assets/img/hillcrest/resorts/baker-logo.png'}}">
+                                </a> 
+                            </div>
+                        </div>
+                        <div class='card-right'>
+                            <p>Mt. Baker Ski Area, Inc. is located in the Mt. Baker-Snoqualmie National Forest and is operated under a permit granted by United States Forest Service. The ski area is home to the world's greatest recorded snowfall in one season, 1,140 inches (95.0ft) recorded during the 1998–99 season. It sees unusually high average snowfall every year.</p>
+                        </div>
+                    </div>
+                    <div class='card-bottom'>
+                        <div class='conditions'>
+                            <a href='http://www.mtbaker.us/snow-report'>Conditions</a>
+                        </div>
+                        <div class='address'>
+                            <a class='address-link' href='https://www.google.com/maps/place/Mt.+Baker+Ski+Area/@48.8560827,-121.6828053,14z/data=!3m1!4b1!4m5!3m4!1s0x5484f615f7b9cc1f:0x144ebb99b36b27a2!8m2!3d48.8572916!4d-121.6666619'>
+                                <p>Directions</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class='resort-card' id='crystal'>
+                    <div class='card-middle'>
+                        <div class='card-left'>
+                            <div class='weather-boxes'>
+                            </div>
+                            <div class='name-logo'>
+                                <h1>Crystal Mountain Resort</h1>
+                                <a href='https://www.crystalmountainresort.com/'>
+                                    <img src="{{cdn '/assets/img/hillcrest/resorts/crystal-logo.png'}}">
+                                </a> 
+                            </div>
+                        </div>
+                        <div class='card-right'>
+                            <p>With open space, expansive terrain and powerful views, Crystal is that place. Here the mountain towers in a paradise valley at the end of the road. Thriving community exists in our parking lot and in our ski bars. True Pacific Northwest shines through, even in the fog or in the clouds. We believe our mountain is a place where something powerful exists, where we celebrate characteristic culture and all feel the power in a storm. Crystal is not just a location, but also a place that captures our heart and feeds our sould.</p>
+                        </div>
+                    </div>
+                    <div class='card-bottom'>
+                        <div class='conditions'>
+                            <a href='https://www.crystalmountainresort.com/the-mountain/mountain-report/'>Conditions</a>
+                        </div>
+                        <div class='address'>
+                            <a class='address-link' href='https://www.google.com/maps/place/Crystal+Mountain+Resort/@46.9353367,-121.4770354,17z/data=!3m1!4b1!4m5!3m4!1s0x5490b9cdfca91a49:0x1367b65ca6218669!8m2!3d46.9353331!4d-121.4748467'>
+                                <p>Directions</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    
+        {{/partial}}
+    
+        {{> layout/base}}

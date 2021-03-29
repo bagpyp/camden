@@ -1,0 +1,3 @@
+{
+  "components/f/b2b/side-cart-quick-add-sku": "<form class=\"quick-add\" action=\"{{urls.cart}}\" method=\"post\" enctype=\"multipart/form-data\" data-error=\"{{lang 'b2b.side_cart.popup_messages.sku_error'}}\">\n    <input class=\"quick-add-hidden\" type=\"hidden\" name=\"action\" value=\"add\">\n    <input class=\"quick-add-name\" name=\"sku\" type=\"text\" placeholder=\"{{lang 'b2b.side_cart.quick_add_sku'}}\" data-sku autocorrect=\"off\">\n    <span class=\"quick-add-separator\">&times</span>\n    <input class=\"quick-add-qty\" name=\"qty\" type=\"tel\" value=\"1\" data-qty autocomplete=\"off\">\n    <span class=\"quick-add-result\"></span>\n    <input class=\"quick-add-submit button--primary\" type=\"submit\" value=\"+\">\n</form>\n"
+}

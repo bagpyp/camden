@@ -1,0 +1,291 @@
+$header-text-color: stencilColor("header-text-color");
+$button-color: stencilColor("button--primary-color");
+$button-color-hover: stencilColor("button--primary-colorHover");
+$button-bg: stencilColor("button--primary-backgroundColor");
+$button-bg-hover: stencilColor("button--primary-backgroundColorHover");
+$quick-search-bg: stencilColor("quick-search-bg");
+$quick-search-hover: stencilColor("quick-search-hover");
+$quick-search-border: stencilColor("quick-search-border");
+$input-separator-bg: stencilColor("input-separator-bg");
+
+.search,
+.sku-add {
+    position: relative;
+    outline: none;
+
+    @include breakpoint("medium") {
+        flex: 1 1 auto;
+        width: calc(100% - 350px);
+    }
+
+    @include breakpoint("large") {
+        max-width: 65%;
+        width: 100%;
+    }
+
+    @include breakpoint("xlarge") {
+        max-width: 28%;
+    }
+
+    @include breakpoint(1600px) {
+        max-width: 34.247%;
+    }
+
+    input::placeholder {
+        color: $input-placeholder-color;
+    }
+
+    .form {
+        margin: 0;
+    }
+
+    .form-field {
+        border-radius: remCalc(4px);
+        margin: 0;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .form-input-wrap {
+        display: flex;
+        width: 100%;
+    }
+
+    .form-input {
+        border-color: set-off-color-text(stencilColor("input-bg-color"));
+        border-radius: remCalc(4) 0 0 remCalc(4);
+        padding-right: (spacing("single") * 3.5);
+
+        &.form-input--sku-num {
+            border-right: none;
+            padding: 0 0 0 spacing("half");
+            width: 76.85%;
+        }
+
+        &.form-input--sku-qty {
+            border-radius: 0;
+            padding: 0;
+            text-align: center;
+            width: 23.15%;
+        }
+    }
+
+    .search-button {
+        background: $button-bg;
+        border: none;
+        bottom: 0;
+        color: $button-color;
+        font-size: remCalc(18px);
+        font-weight: $fontWeight-semibold;
+        margin: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: remCalc(56px);
+
+        &:hover {
+            background: $button-bg-hover;
+            color: $button-color-hover;
+        }
+    }
+
+    .search-button-icon {
+        display: block;
+        height: remCalc(20px);
+        margin: 0 auto;
+        position: relative;
+        width: remCalc(20px);
+
+        svg {
+            fill: stencilColor("search-button-bg-icon");
+        }
+    }
+}
+
+.sku-add {
+    display: none;
+    max-width: remCalc(300px);
+    width: 100%;
+
+    @include breakpoint("medium") {
+        display: block;
+    }
+
+    @include breakpoint("large") {
+        max-width: calc(35% - 20px);
+    }
+
+    @include breakpoint("xlarge") {
+        max-width: remCalc(300px);
+    }
+
+    .form-field {
+        display: flex;
+        padding-right: 36.66%;
+
+        &::before {
+            background: $input-separator-bg;
+            bottom: remCalc(2px);
+            content: "";
+            display: block;
+            left: 48.66%;
+            position: absolute;
+            top: remCalc(2px);
+            width: remCalc(1px);
+        }
+    }
+
+    .search-button {
+        font-size: $fontSize-base;
+        width: 36.7%;
+    }
+}
+
+.quickSearchResults {
+    // Importants are used to overwrite JS inline styles
+    background-color: $quick-search-bg;
+    display: none !important;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+    left: 0;
+    margin-top: spacing("half");
+    position: absolute;
+    right: 0;
+    top: 100%;
+    z-index: 100;
+
+    @include breakpoint("medium") {
+        display: block !important;
+    }
+
+    .productGrid {
+        margin: 0;
+        max-height: rem-calc(500);
+        overflow: auto;
+    }
+
+    .product {
+        box-shadow: none;
+        display: inline-block;
+        height: auto;
+        margin: 0;
+        padding: 0 spacing("base");
+        position: relative;
+        width: 100%;
+
+        .product-link {
+            bottom: 0;
+            height: 100%;
+            left: 0;
+            position: absolute;
+            right: 0;
+            text-decoration: none;
+            top: 0;
+            width: 100%;
+            z-index: 40;
+        }
+
+        &:hover {
+            background-color: $quick-search-hover;
+        }
+    }
+
+    .product:last-child {
+        .quick-search-card {
+            border: none;
+        }
+    }
+
+    .quick-search-card {
+        border-bottom: $quick-search-border;
+        display: grid;
+        grid-template-columns: 7.5% auto;
+        height: auto;
+        padding: spacing("base") 0;
+        width: 100%;
+
+        img {
+            max-height: 50px;
+        }
+
+        .card-image {
+            grid-column-start: 1;
+        }
+
+        .card-info {
+            grid-column-start: 2;
+        }
+    }
+
+    .card-image {
+        background-color: initial;
+        display: inline-block;
+        position: inherit;
+        width: auto;
+    }
+
+    .card-info {
+        display: grid;
+        grid-template-rows: max-content minmax(0,100%) max-content max-content;
+        margin: 0;
+        padding-left: spacing("base");
+
+        .card-stock,
+        .card-text {
+            font-size: $fontSize-smallest;
+            line-height: unset;
+            margin: 0;
+        }
+
+        .card-text-brand,
+        .card-text-rating,
+        .card-text-sku {
+            float: left;
+        }
+
+        .card-text-brand + .card-text-sku::before {
+            content: "|";
+            font-size: 1.2rem;
+            line-height: spacing("base");
+            margin: 0 spacing("quarter");
+        }
+
+        .card-stock {
+            font-weight: $fontWeight-semibold;
+        }
+
+        .price-primary {
+            font-size: fontSize("smaller");
+        }
+
+        .card-text-container {
+            grid-row-start: 1;
+
+            .card-text-rating {
+                margin-left: spacing("half");
+            }
+
+            div:first-child {
+                margin-left: 0;
+            }
+        }
+
+        .card-title {
+            grid-row-start: 2;
+            margin: 0 0 spacing("quarter");
+        }
+
+        .card-text {
+            grid-row-start: 3;
+        }
+    }
+
+    .card-buttons {
+        display: none;
+    }
+
+    .quickSearchMessage {
+        margin: 0;
+        padding: spacing("half")*1.5;
+        word-break: break-word;
+    }
+}
