@@ -34,6 +34,10 @@ body {
         flex-flow: row wrap;
     }
 
+    @media screen and (max-width: 400px) {
+        // max-height: 200px;
+    }
+
     &.is-open {
       position: fixed;
       top: 0;
@@ -310,18 +314,27 @@ body {
         }
 
         &.header-logo--image {
-            max-width: 40;
+            // max-width: 150px;
             align-items: center;
             display: flex;
 
             .header-logo-text {
                 font-size: 0;
             }
+            @media screen and (max-width: 500px) {
+                // width: 0px;
+                display: none;
+            }
         }
 
         a {
             color: stencilColor("header-logo-color");
-            width: 100%;
+            @include breakpoint("small") {
+                width: 100%;
+            }
+            @media screen and (max-width: 500px) {
+                display: none;
+            }        
         }
         
         //logo main css
@@ -330,6 +343,8 @@ body {
             @include breakpoint("small") {
                 max-width: 450px;
             }
+
+
             // above all -Robbie
             vertical-align: middle;
         }

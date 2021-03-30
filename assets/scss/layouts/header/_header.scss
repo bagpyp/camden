@@ -210,7 +210,8 @@
     overflow: hidden;
     padding: 0 remCalc(18);
     //added margin-top of 18px to center with logo
-    margin-top: remCalc(18);
+    // margin-top: remCalc(18);
+    // changed it back -Robbie
     //changed position from absolute to relative.
     position: relative;
     z-index: zIndex("high");
