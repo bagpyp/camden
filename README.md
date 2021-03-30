@@ -1,4 +1,4 @@
-# This is a Big Commerce website, created for Hillcrest Sports by Robbie Cunningham and Dylan Manley.
+# This is a Big Commerce website, created for Hillcrest Ski & Sports in Gresham, Oregon
 ## Made with a custom Camden template for Big Commerce, using React, Javascript, Handelbars, Jquery, SCSS, Webpack, Node and HTML.
 
 
