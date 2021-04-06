@@ -1,4 +1,5 @@
 node_modules
 secrets.stencil.json
 report.html
+config.stencil.json
 *.zip
