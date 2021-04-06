@@ -3,3 +3,4 @@ secrets.stencil.json
 report.html
 config.stencil.json
 *.zip
+assets/dist/report.html
