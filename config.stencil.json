@@ -5,8 +5,7 @@
     "page": {
       "rentals.html": "/rentals/",
       "conditions.html": "/conditions/",
-      "tuning.html": "/tuning/",
-      "special.html": "/special/"
+      "tuning.html": "/tuning/"
     },    
     "product": {}
   },
