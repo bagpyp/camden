@@ -29,7 +29,11 @@ body {
 }
 
 .page-heading {
-  text-align: left;
+  text-align: center;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-transform: uppercase;
+  font-size: 36px;
+  font-weight: 800;
 
   &.page-heading--center {
     text-align: center;
