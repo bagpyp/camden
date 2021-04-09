@@ -30,7 +30,7 @@ const StoreHours = () => (
                             color: '#2C5063',
                             fontWeight: '600',
                             padding: '0.1vmin'}}>
-                    Monday - Friday: 8-7<br/>
+                    Monday - Friday: 9-7<br/>
                     Saturday: 8-6:30<br/>
                     Sunday: 8-5:30<br/>
                 </p>
