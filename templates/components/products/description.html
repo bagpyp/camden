@@ -63,7 +63,7 @@
 {{/all}}
 {{#each product.custom_fields}}
     <!-- Adding this if block to hide the eBay Category ID. -Robbbie -->
-    {{#if (if name '!=' 'eBay Category ID')}}
+    {{#if (if name '!=' 'eBay Category ID') (if name '!=' 'eBay Sale Price')}}
         {{#or (if name '===' 'Blog Post Description') (if name '===' 'Promotion Label') (if name '===' 'GridTag') (if name '===' 'Related Content') (if name '===' 'Short Description')}}
         {{else}}
         <div class="productView-table-row">

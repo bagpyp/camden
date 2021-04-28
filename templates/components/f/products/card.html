@@ -97,7 +97,7 @@
                 {{#or (if name '===' 'Blog Post Description') (if name '===' 'Promotion Label') (if name '===' 'Related Content') (if name '===' 'GridTag') (if name '===' 'Short Description')}}
                 {{else}}
                 <!-- Adding this if block to hide ebay category id from product cards -Robbie -->
-                {{#if (if name '!=' 'eBay Category ID')}}
+                {{#if (if name '!=' 'eBay Category ID') (if name '!=' 'eBay Sale Price')}}
                     <div>
                         <span class="card-label-name">{{name}}:</span>
                         <span class="card-label-value">{{{value}}}</span>

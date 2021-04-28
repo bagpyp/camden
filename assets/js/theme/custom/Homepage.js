@@ -39,7 +39,7 @@ const StoreHours = () => (
     </div>
 )
 
-export default class GoogleServices extends PageManager { 
+export default class Homepage extends PageManager { 
     onReady() { 
             let container = $('#root')[0]
             ReactDOM.render(<StoreHours context={this.context}/>, container)

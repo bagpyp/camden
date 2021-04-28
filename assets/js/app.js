@@ -54,7 +54,7 @@ const pageClasses = {
 
 const customClasses = {
     'pages/custom/page/multi-add-skus': () => import('./theme/f/multiadd'),
-    'pages/home': () => import('./theme/custom/GoogleServices'),
+    'pages/home': () => import('./theme/custom/Homepage'),
 };
 
 /**
